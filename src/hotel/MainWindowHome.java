@@ -1,16 +1,16 @@
 package hotel;
 import java.awt.Frame;
-
+import javax.swing.JFrame;
 public class MainWindowHome extends javax.swing.JFrame {
 
     /**
      * Creates new form MainWindowHome
      */
     public MainWindowHome() {
-        initComponents();
-        
-        // Maximiza la ventana para que ocupe toda la pantalla
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        initComponents();  
+        setSize(800, 600); // Set the desired size of the window
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ensure the application exits on close
         ExitHandler.addExitListener(this);
     }
 

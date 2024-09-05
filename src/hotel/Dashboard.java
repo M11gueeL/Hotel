@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -13,7 +14,9 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         this.username = username;
         welcomeLabel.setText("¡Bienvenido " + username + "!");
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         ExitHandler.addExitListener(this);
         setManageUsersButtonVisibility();
     }

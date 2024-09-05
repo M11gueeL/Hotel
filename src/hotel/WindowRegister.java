@@ -3,12 +3,15 @@ import java.awt.Frame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 
 public class WindowRegister extends javax.swing.JFrame {
 
     public WindowRegister() {
         initComponents();
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
         ExitHandler.addExitListener(this);
     }
 

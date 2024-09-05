@@ -14,7 +14,7 @@ public class UserManager extends JFrame {
     public UserManager() {
         setTitle("Gestión de Usuarios");
         setSize(800, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         tableModel = new DefaultTableModel(new String[]{"id_empleado", "nombre", "apellido", "cedula", "telefono", "email", "rol", "usuario", "password"}, 0);

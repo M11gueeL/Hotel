@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.awt.Frame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -22,7 +23,9 @@ public class LoginWindow extends javax.swing.JFrame {
      */
     public LoginWindow() {
         initComponents();
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
         ExitHandler.addExitListener(this);
     }
 
