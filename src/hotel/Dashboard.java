@@ -39,8 +39,8 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     private void setManageUsersButtonVisibility() {
-        ManageUsers.setVisible(isAdmin());
-    }
+        ManageClients.setVisible(isAdmin());
+    }        
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -49,7 +49,10 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         welcomeLabel = new javax.swing.JLabel();
         ExitButton = new javax.swing.JButton();
+        ManageClients = new javax.swing.JButton();
         ManageUsers = new javax.swing.JButton();
+        ManageRooms = new javax.swing.JButton();
+        ManageReservation = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,10 +65,31 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        ManageClients.setText("Clientes");
+        ManageClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ManageClientsActionPerformed(evt);
+            }
+        });
+
         ManageUsers.setText("Administrar usuarios");
         ManageUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ManageUsersActionPerformed(evt);
+            }
+        });
+
+        ManageRooms.setText("Habitaciones");
+        ManageRooms.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ManageRoomsActionPerformed(evt);
+            }
+        });
+
+        ManageReservation.setText("Reservas");
+        ManageReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ManageReservationActionPerformed(evt);
             }
         });
 
@@ -76,23 +100,34 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(311, 311, 311)
-                        .addComponent(welcomeLabel))
+                        .addGap(51, 51, 51)
+                        .addComponent(ManageUsers, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                        .addGap(21, 21, 21)
+                        .addComponent(ManageClients))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ManageUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ExitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(645, Short.MAX_VALUE))
+                        .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(310, 310, 310)
+                        .addComponent(welcomeLabel)))
+                .addGap(18, 18, 18)
+                .addComponent(ManageRooms)
+                .addGap(18, 18, 18)
+                .addComponent(ManageReservation)
+                .addContainerGap(427, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(16, 16, 16)
                 .addComponent(welcomeLabel)
-                .addGap(2, 2, 2)
-                .addComponent(ManageUsers)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 401, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ManageClients)
+                    .addComponent(ManageUsers)
+                    .addComponent(ManageRooms)
+                    .addComponent(ManageReservation))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 395, Short.MAX_VALUE)
                 .addComponent(ExitButton)
                 .addGap(34, 34, 34))
         );
@@ -111,9 +146,10 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
-        ExitHandler.showExitConfirmation(this);
-    }//GEN-LAST:event_ExitButtonActionPerformed
+    private void ManageRoomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageRoomsActionPerformed
+        RoomsManager roomsManager = new RoomsManager();
+        roomsManager.setVisible(true);
+    }//GEN-LAST:event_ManageRoomsActionPerformed
 
     private void ManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageUsersActionPerformed
         if (isAdmin()) {
@@ -121,12 +157,26 @@ public class Dashboard extends javax.swing.JFrame {
             UserManager userManager = new UserManager();
             userManager.setVisible(true);
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "No tienes permisos para acceder a esta función.", 
-                "Acceso denegado", 
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No tienes permisos para acceder a esta función.",
+                "Acceso denegado",
                 javax.swing.JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_ManageUsersActionPerformed
+
+    private void ManageClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageClientsActionPerformed
+            ClientsManager clientManager = new ClientsManager();
+            clientManager.setVisible(true);
+    }//GEN-LAST:event_ManageClientsActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        ExitHandler.showExitConfirmation(this);
+    }//GEN-LAST:event_ExitButtonActionPerformed
+
+    private void ManageReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageReservationActionPerformed
+       ReservationManager reservationManager = new ReservationManager();
+       reservationManager.setVisible(true);
+    }//GEN-LAST:event_ManageReservationActionPerformed
 
     
     /**
@@ -167,6 +217,9 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ExitButton;
+    private javax.swing.JButton ManageClients;
+    private javax.swing.JButton ManageReservation;
+    private javax.swing.JButton ManageRooms;
     private javax.swing.JButton ManageUsers;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel welcomeLabel;
