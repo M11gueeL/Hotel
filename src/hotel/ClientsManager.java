@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package hotel;
 
 import javax.swing.*;
@@ -10,18 +6,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import hotel.Utils;
+
 public class ClientsManager extends JFrame {
     private JTable table;
     private DefaultTableModel tableModel;
-    
-    public ClientsManager(){
+
+    public ClientsManager() {
         setTitle("Gestión de Clientes");
         setSize(800, 400);
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        tableModel = new DefaultTableModel(new String[]{"id_cliente", "nombre", "apellido", "cedula", "telefono", "id_habitacion"}, 0);
+        tableModel = new DefaultTableModel(new String[]{"id_cliente", "nombre", "apellido", "cedula", "telefono"}, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
@@ -30,21 +25,25 @@ public class ClientsManager extends JFrame {
         JButton btnDelete = new JButton("Eliminar");
         JButton btnEdit = new JButton("Editar");
         JButton btnExit = new JButton("Salir");
+        JButton btnRegister = new JButton("Registrar Nuevo Cliente"); 
+
         buttonPanel.add(btnDelete);
         buttonPanel.add(btnEdit);
+        buttonPanel.add(btnRegister); // Añadir el nuevo botón al panel
         buttonPanel.add(btnExit);
         add(buttonPanel, BorderLayout.SOUTH);
+
         btnExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose(); // Cierra la ventana principal
             }
-        });  
-        
-        btnDelete.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e){
-            int selectedRow = table.getSelectedRow();
+        });
+
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     int idCliente = (int) tableModel.getValueAt(selectedRow, 0);
                     deleteUser("clientes", idCliente);
@@ -53,32 +52,41 @@ public class ClientsManager extends JFrame {
             }
         });
 
-        btnEdit.addActionListener(new ActionListener(){
+        btnEdit.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     int idCliente = (int) tableModel.getValueAt(selectedRow, 0);
-                    String[] fields = {"nombre", "apellido", "cedula", "telefono", "id_habitacion"};
+                    String[] fields = {"nombre", "apellido", "cedula", "telefono"};
                     new Utils().editRecord("clientes", idCliente, "id_cliente", fields, "Cliente");
                     loadClients("clientes");
                 }
             }
         });
+
+        btnRegister.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RegisterClient registerClientForm = new RegisterClient();
+                registerClientForm.setVisible(true); // Mostrar el formulario de registro
+            }
+        });
+
         loadClients("clientes");
     }
-    
+
     public void deleteUser(String tableName, int idEmpleado) {
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE id_cliente = ?")) { // Cambiado a "id_empleado"
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE id_cliente = ?")) {
             pstmt.setInt(1, idEmpleado);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
-        public void loadClients(String tableName) {
+
+    public void loadClients(String tableName) {
         tableModel.setRowCount(0); // Clear existing data
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -90,7 +98,6 @@ public class ClientsManager extends JFrame {
                         rs.getString("apellido"),
                         rs.getString("cedula"),
                         rs.getString("telefono"),
-                        rs.getString("id_habitacion"),
                 });
             }
         } catch (SQLException e) {

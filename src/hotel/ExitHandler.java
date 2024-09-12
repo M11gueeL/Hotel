@@ -20,7 +20,7 @@ public class ExitHandler {
     public static void showExitConfirmation(JFrame frame) {
         int option = JOptionPane.showConfirmDialog(
             frame,
-            "¿Seguro que quieres salir?",
+            "¿Seguro que desea salir?",
             "Confirmar salida",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE
@@ -28,6 +28,23 @@ public class ExitHandler {
         
         if (option == JOptionPane.YES_OPTION) {
             System.exit(0);
+        }
+    }
+    
+    // Método para confirmar finalización de sesión
+    public static void showExitLogOutConfirmation(JFrame frame) {
+        int option = JOptionPane.showConfirmDialog(
+            frame, 
+            "¿Seguro que desea cerrar su sesión?",
+            "Confirmar salida",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+            );
+        
+        if (option == JOptionPane.YES_OPTION) {
+            frame.dispose();
+            MainWindowHome mainWindowHome = new MainWindowHome();
+            mainWindowHome.setVisible(true);
         }
     }
 }

@@ -103,9 +103,6 @@ public class UserManager extends JFrame {
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            UserManager userManager = new UserManager();
-            userManager.setVisible(true);
-        });
+        
     }
 }
