@@ -1,5 +1,4 @@
 package hotel;
-import javax.swing.JFrame;
 
 public class Hotel {
     
