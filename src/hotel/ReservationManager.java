@@ -46,12 +46,15 @@ public class ReservationManager extends JFrame {
         JButton btnDelete = createStyledButton("Eliminar");
         JButton btnAdd = createStyledButton("Añadir reserva");
         JButton btnExit = createStyledButton("Salir");
+        JButton btnExportarPDF = createStyledButton("Exportar a PDF");
 
         buttonPanel.add(btnDelete);
-        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0))); // Espacio entre botones
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(btnEdit);
         buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(btnAdd);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        buttonPanel.add(btnExportarPDF);
         buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(btnExit);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -61,6 +64,14 @@ public class ReservationManager extends JFrame {
         btnAdd.addActionListener(e -> openReservationForm());
         btnDelete.addActionListener(e -> deleteSelectedReservation());
         btnEdit.addActionListener(e -> editSelectedReservation());
+        btnExportarPDF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombreTabla = "reservas";
+                CreatePDF.exportarTablaPDF(nombreTabla);
+                JOptionPane.showMessageDialog(null, "PDF exportado exitosamente al escritorio.");
+            }
+        });
 
         loadReservations("reservas");
     }
