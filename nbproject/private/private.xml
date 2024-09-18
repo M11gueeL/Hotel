@@ -5,11 +5,15 @@
         <group>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/WindowRegister.java</file>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/LoginWindow.java</file>
+            <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/ReservationManager.java</file>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/DatabaseConnection.java</file>
+            <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/ReservationForm.java</file>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/UserManager.java</file>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/Dashboard.java</file>
+            <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/ClientsManager.java</file>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/MainWindowHome.java</file>
             <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/Hotel.java</file>
+            <file>file:/C:/Users/juand/Desktop/Programacion/Java/Hotel/src/hotel/RoomsManager.java</file>
         </group>
     </open-files>
 </project-private>
