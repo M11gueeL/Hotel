@@ -1,109 +1,172 @@
 package hotel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 
 public class RoomsManager extends JFrame {
-    private JTextField normalRoomsText;
-    private JTextField vipRoomsText;
-    private JTextField vipRoomsPriceText;
-    private JTextField normalRoomsPriceText;
+
+    private JTable roomsTable;
+    private DefaultTableModel tableModel;
+    private JButton editButton, deleteButton, refreshButton, exitButton, generateButton;
+    private Utils utils;
 
     public RoomsManager() {
-        setTitle("Generador de Habitaciones");
-        setSize(800, 400);
-        setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        add(panel);
-
-        placeComponents(panel);
-
-        setVisible(true);
+        utils = new Utils();
+        initComponents();
+        loadRoomsData();
     }
 
-    private void placeComponents(JPanel panel) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+    private void initComponents() {
+        setTitle("Gestión de Habitaciones");
+        setSize(800, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        // Set custom colors
+        Color backgroundColor = new Color(240, 240, 240);
+        Color buttonColor = new Color(70, 130, 180);
+        Color textColor = Color.WHITE;
 
-        JLabel titleLabel = new JLabel("Generador de Habitaciones", SwingConstants.CENTER);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        panel.add(titleLabel, gbc);
+        // Table
+        String[] columnNames = {"ID", "Disponibilidad", "Precio", "Tipo", "Nombre"};
+        tableModel = new DefaultTableModel(columnNames, 0);
+        roomsTable = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(roomsTable);
+        
+        // Buttons
+        editButton = createStyledButton("Editar", buttonColor, textColor);
+        deleteButton = createStyledButton("Eliminar", buttonColor, textColor);
+        refreshButton = createStyledButton("Refrescar", buttonColor, textColor);
+        exitButton = createStyledButton("Salir", buttonColor, textColor);
+        generateButton = createStyledButton("Generador de habitaciones", buttonColor, textColor);
 
-        gbc.gridwidth = 1;
+        // Button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(backgroundColor);
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(refreshButton);
+        buttonPanel.add(generateButton);
+        buttonPanel.add(exitButton);
 
-        addLabelAndTextField(panel, "Habitaciones Normales:", 1, normalRoomsText = new JTextField(10));
-        addLabelAndTextField(panel, "Habitaciones VIP:", 2, vipRoomsText = new JTextField(10));
-        addLabelAndTextField(panel, "Precio de las Habitaciones VIP:", 3, vipRoomsPriceText = new JTextField(10));
-        addLabelAndTextField(panel, "Precio de las Habitaciones normales:", 4, normalRoomsPriceText = new JTextField(10));
+        // Main layout
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        JButton generateButton = new JButton("Generar Habitaciones");
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
-        panel.add(generateButton, gbc);
+        // Add action listeners
+        editButton.addActionListener(e -> editSelectedRoom());
+        deleteButton.addActionListener(e -> deleteSelectedRoom());
+        refreshButton.addActionListener(e -> refreshTable());
+        exitButton.addActionListener(e -> dispose());
+        generateButton.addActionListener(e -> openRoomsGenerator());
+    }
 
-        generateButton.addActionListener(e -> {
-            try {
-                int normalRooms = Integer.parseInt(normalRoomsText.getText());
-                int vipRooms = Integer.parseInt(vipRoomsText.getText());
-                int vipRoomsPrice = Integer.parseInt(vipRoomsPriceText.getText());
-                int normalRoomsPrice = Integer.parseInt(normalRoomsPriceText.getText());
-                generateRooms(normalRooms, vipRooms, vipRoomsPrice, normalRoomsPrice);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingrese números válidos en todos los campos.", "Error de entrada", JOptionPane.ERROR_MESSAGE);
+    private JButton createStyledButton(String text, Color bgColor, Color fgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(fgColor);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        return button;
+    }
+    
+    private void refreshTable() {
+        tableModel.setRowCount(0);
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM habitaciones")) {
+
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("id_habitacion"),
+                    rs.getBoolean("disponibilidad"),
+                    rs.getInt("precio"),
+                    rs.getString("tipo"),
+                    rs.getString("nombre")
+                };
+                tableModel.addRow(row);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage());
+        }
+    }
+
+    private void loadRoomsData() {
+        tableModel.setRowCount(0);
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM habitaciones")) {
+
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("id_habitacion"),
+                    rs.getBoolean("disponibilidad"),
+                    rs.getInt("precio"),
+                    rs.getString("tipo"),
+                    rs.getString("nombre")
+                };
+                tableModel.addRow(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage());
+        
+         }
+    }
+
+    private void editSelectedRoom() {
+         int selectedRow = roomsTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int) tableModel.getValueAt(selectedRow, 0);
+            String[] fields = {"disponibilidad", "precio", "tipo", "nombre"};
+            utils.editRecord("habitaciones", id, "id_habitacion", fields, "Habitación");
+            loadRoomsData(); // Refresh table after edit
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una habitación para editar.");
+        }
+    }
+
+    private void deleteSelectedRoom() {
+          int selectedRow = roomsTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int) tableModel.getValueAt(selectedRow, 0);
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                "¿Está seguro de que desea eliminar esta habitación?", 
+                "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                deleteRoom(id);
+                loadRoomsData(); // Refresh table after delete
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una habitación para eliminar.");
+        }
+    }
+
+    private void deleteRoom(int id) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM habitaciones WHERE id_habitacion = ?")) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al eliminar la habitación: " + e.getMessage());
+        }
+    }
+
+    private void openRoomsGenerator() {
+        SwingUtilities.invokeLater(() -> {
+            RoomsGenerator generator = new RoomsGenerator();
+            generator.setVisible(true);
         });
     }
 
-    private void addLabelAndTextField(JPanel panel, String labelText, int row, JTextField textField) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
-
-        JLabel label = new JLabel(labelText);
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        panel.add(label, gbc);
-
-        gbc.gridx = 1;
-        panel.add(textField, gbc);
-    }
-
-    private void generateRooms(int normalRooms, int vipRooms, int vipRoomsPrice, int normalRoomsPrice) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            for (int i = 1; i <= normalRooms; i++) {
-                insertRoom(conn, "Normal Room " + i, "Normal", normalRoomsPrice);
-            }
-            for (int i = 1; i <= vipRooms; i++) {
-                insertRoom(conn, "VIP Room " + i, "VIP", vipRoomsPrice);
-            }
-            JOptionPane.showMessageDialog(this, "Se han generado " + (normalRooms + vipRooms) + " habitaciones con éxito.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al generar habitaciones: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void insertRoom(Connection conn, String roomName, String roomType, int roomPrice) throws SQLException {
-        String query = "INSERT INTO habitaciones (nombre, tipo, precio, disponibilidad) VALUES (?, ?, ?, ?);";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, roomName);
-            pstmt.setString(2, roomType);
-            pstmt.setInt(3, roomPrice);
-            pstmt.setInt(4, 1);
-            pstmt.executeUpdate();
-        }
-    }
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(RoomsManager::new);
+        SwingUtilities.invokeLater(() -> {
+            new RoomsManager().setVisible(true);
+        });
     }
 }

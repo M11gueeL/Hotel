@@ -35,6 +35,7 @@ public class ReservationForm extends JFrame {
             // Configurar JFrame
             setTitle("Formulario de Reservas");
             setSize(600, 350);
+            setResizable(false);
             setLocationRelativeTo(null);
             setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
