@@ -42,7 +42,6 @@ public class ReservationForm extends JFrame {
             gbc.insets = new Insets(10, 10, 10, 10);
 
             // Agregar componentes al JFrame
-            // Agregar componentes al JFrame
             addComponent(0, 0, new JLabel("Cliente:"));
             addComponent(1, 0, clientesComboBox);
             addComponent(0, 1, new JLabel("Habitación:"));
@@ -52,8 +51,6 @@ public class ReservationForm extends JFrame {
             addComponent(0, 3, new JLabel("Fecha de Salida:"));
             addComponent(1, 3, fechaSalidaField);
             addComponent(1, 4, 1, 1, GridBagConstraints.CENTER, agregarReservaButton);
-            //add(agregarReservaButton, gbc);
-
 
             // Agregar acción al botón
             agregarReservaButton.addActionListener(new ActionListener() {
@@ -63,11 +60,17 @@ public class ReservationForm extends JFrame {
                         if (validarFechas(fechaEntradaField.getText(), fechaSalidaField.getText())) {
                             int clienteId = clientesMap.get(clientesComboBox.getSelectedItem());
                             int habitacionId = habitacionesMap.get(habitacionesComboBox.getSelectedItem());
-                            agregarReserva(clienteId, habitacionId, fechaEntradaField.getText(), fechaSalidaField.getText());
-                            JOptionPane.showMessageDialog(null, "Reserva agregada exitosamente!");
-                            dispose(); // Cierra la ventana principal
-                            ReservationManager reservationManager = new ReservationManager();
-                            reservationManager.setVisible(true);
+                            
+                            // Verificar si la habitación está disponible
+                            if (isHabitacionDisponible(habitacionId)) {
+                                agregarReserva(clienteId, habitacionId, fechaEntradaField.getText(), fechaSalidaField.getText());
+                                JOptionPane.showMessageDialog(null, "Reserva agregada exitosamente!");
+                                dispose();
+                                ReservationManager reservationManager = new ReservationManager();
+                                reservationManager.setVisible(true);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "La habitación seleccionada no está disponible.");
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null, "Las fechas ingresadas no son válidas. Deben estar en formato YYYY-MM-DD.");
                         }
@@ -77,6 +80,7 @@ public class ReservationForm extends JFrame {
                 }
             });
 
+            iniciarActualizacionPeriodica();
 
             setVisible(true);
         } catch (SQLException e) {
@@ -114,7 +118,7 @@ public class ReservationForm extends JFrame {
 
     private Map<String, Integer> getHabitacionesMap() throws SQLException {
         Map<String, Integer> habitacionesMap = new HashMap<>();
-        String query = "SELECT id_habitacion, nombre FROM habitaciones";
+        String query = "SELECT id_habitacion, nombre FROM habitaciones WHERE disponibilidad = true";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
              ResultSet resultSet = pstmt.executeQuery()) {
@@ -140,7 +144,7 @@ public class ReservationForm extends JFrame {
 
     private List<String> getHabitaciones() throws SQLException {
         List<String> habitaciones = new ArrayList<>();
-        String query = "SELECT nombre FROM habitaciones";
+        String query = "SELECT nombre FROM habitaciones WHERE disponibilidad = true";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
              ResultSet resultSet = pstmt.executeQuery()) {
@@ -152,14 +156,48 @@ public class ReservationForm extends JFrame {
     }
 
     private void agregarReserva(int clienteId, int habitacionId, String fechaEntrada, String fechaSalida) throws SQLException {
-        String query = "INSERT INTO reservas (id_cliente, id_habitaciones, fecha_entrada, fecha_salida) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, clienteId);
-            pstmt.setInt(2, habitacionId);
-            pstmt.setString(3, fechaEntrada);
-            pstmt.setString(4, fechaSalida);
-            pstmt.executeUpdate();
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            conn.setAutoCommit(false);
+
+            // Insertar la nueva reserva
+            String insertReservaQuery = "INSERT INTO reservas (id_cliente, id_habitaciones, fecha_entrada, fecha_salida) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(insertReservaQuery)) {
+                pstmt.setInt(1, clienteId);
+                pstmt.setInt(2, habitacionId);
+                pstmt.setString(3, fechaEntrada);
+                pstmt.setString(4, fechaSalida);
+                pstmt.executeUpdate();
+            }
+
+            // Actualizar la disponibilidad de la habitación
+            String updateHabitacionQuery = "UPDATE habitaciones SET disponibilidad = false WHERE id_habitacion = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(updateHabitacionQuery)) {
+                pstmt.setInt(1, habitacionId);
+                pstmt.executeUpdate();
+            }
+
+            conn.commit();
+            actualizarComboBoxHabitaciones();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            throw e;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -173,7 +211,48 @@ public class ReservationForm extends JFrame {
         }
     }
 
+    private boolean isHabitacionDisponible(int habitacionId) throws SQLException {
+        String query = "SELECT disponibilidad FROM habitaciones WHERE id_habitacion = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, habitacionId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("disponibilidad");
+                }
+            }
+        }
+        return false;
+    }
+
+    private void actualizarComboBoxHabitaciones() {
+        try {
+            habitacionesMap = getHabitacionesMap();
+            habitacionesComboBox.removeAllItems();
+            for (String habitacion : getHabitaciones()) {
+                habitacionesComboBox.addItem(habitacion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void iniciarActualizacionPeriodica() {
+        Timer timer = new Timer(5000, new ActionListener() { // Actualiza cada 5 segundos
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarComboBoxHabitaciones();
+            }
+        });
+        timer.start();
+    }
+
     public static void main(String[] args) {
-        new ReservationForm();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ReservationForm();
+            }
+        });
     }
 }
