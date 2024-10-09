@@ -78,6 +78,7 @@ public class LoginForm extends JFrame {
         field.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(200, 200, 200)),
             BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        
         return field;
     }
 

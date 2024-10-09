@@ -238,14 +238,14 @@ public class ReservationForm extends JFrame {
     }
 
     private void iniciarActualizacionPeriodica() {
-        Timer timer = new Timer(5000, new ActionListener() { // Actualiza cada 5 segundos
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actualizarComboBoxHabitaciones();
-            }
-        });
-        timer.start();
-    }
+              Timer timer = new Timer(60000, new ActionListener() { // Actualiza cada 60 segundos
+                  @Override
+                  public void actionPerformed(ActionEvent e) {
+                      actualizarComboBoxHabitaciones();
+                  }
+              });
+              timer.start();
+          }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
