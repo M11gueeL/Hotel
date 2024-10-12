@@ -6,9 +6,10 @@ import java.awt.*;
 import java.sql.*;
 
 public class RegisterForm extends JFrame {
-    private JTextField fieldName, fieldLastName, fieldTelefono, fieldCedula, userField, emailField, rolField;
+    private JTextField fieldName, fieldLastName, fieldTelefono, fieldCedula, userField, emailField;
     private JPasswordField passwordField;
-    private JButton exitButton, registerButton, backButton;
+    private JComboBox<String> rolComboBox;
+    private JButton registerButton, backButton;
 
     public RegisterForm() {
         setResizable(false);
@@ -16,7 +17,6 @@ public class RegisterForm extends JFrame {
         setSize(400, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ExitHandler.addExitListener(this);
 
         JPanel mainPanel = createMainPanel();
         JPanel formPanel = new JPanel(new GridLayout(8, 1, 10, 10));
@@ -28,7 +28,7 @@ public class RegisterForm extends JFrame {
         addFormField(formPanel, "Teléfono", fieldTelefono = createStyledTextField());
         addFormField(formPanel, "Usuario", userField = createStyledTextField());
         addFormField(formPanel, "Email", emailField = createStyledTextField());
-        addFormField(formPanel, "Rol", rolField = createStyledTextField());
+        addFormField(formPanel, "Rol", rolComboBox = createStyledComboBox());
         addFormField(formPanel, "Contraseña", passwordField = createStyledPasswordField());
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
@@ -37,20 +37,26 @@ public class RegisterForm extends JFrame {
         buttonPanel.setBackground(new Color(240, 240, 240));
 
         registerButton = createStyledButton("Registrar");
-        exitButton = createStyledButton("Salir");
         backButton = createStyledButton("Regresar");
 
         registerButton.addActionListener(e -> registerButtonActionPerformed());
-        exitButton.addActionListener(e -> exitButtonActionPerformed());
-        backButton.addActionListener(e -> backButtonActionPerformed());
+        backButton.addActionListener(e -> dispose());
 
         buttonPanel.add(registerButton);
-        buttonPanel.add(exitButton);
         buttonPanel.add(backButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
+    }
+
+    private JComboBox<String> createStyledComboBox() {
+        JComboBox<String> comboBox = new JComboBox<>(new String[]{"admin", "recepcionista"});
+        comboBox.setPreferredSize(new Dimension(200, 30));
+        comboBox.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 200, 200)),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        return comboBox;
     }
 
     private JPanel createMainPanel() {
@@ -105,15 +111,13 @@ public class RegisterForm extends JFrame {
             registerUser();
         }
     }
-
-    private void exitButtonActionPerformed() {
-        ExitHandler.showExitConfirmation(this);
-    }
-
-    private void backButtonActionPerformed() {
-        MainWindowHome x = new MainWindowHome();
-        this.setVisible(false);
-        x.setVisible(true);
+    
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pattern.matcher(email).matches();
     }
     
     private boolean validateFields() {
@@ -122,7 +126,6 @@ public class RegisterForm extends JFrame {
             fieldCedula.getText().trim().isEmpty() ||
             fieldTelefono.getText().trim().isEmpty() ||
             emailField.getText().trim().isEmpty() ||
-            rolField.getText().trim().isEmpty() ||
             userField.getText().trim().isEmpty() ||
             passwordField.getPassword().length == 0) {
 
@@ -143,14 +146,6 @@ public class RegisterForm extends JFrame {
 
         return true;
     }
-    
-    private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pattern.matcher(email).matches();
-    }
 
     private void registerUser() {
         String nombre = fieldName.getText();
@@ -158,7 +153,7 @@ public class RegisterForm extends JFrame {
         String cedula = fieldCedula.getText();
         String telefono = fieldTelefono.getText();
         String email = emailField.getText();
-        String rol = rolField.getText();
+        String rol = (String) rolComboBox.getSelectedItem();
         String usuario = userField.getText();
         String password = new String(passwordField.getPassword());
 
@@ -195,11 +190,10 @@ public class RegisterForm extends JFrame {
         fieldCedula.setText(""); 
         fieldTelefono.setText("");        
         emailField.setText("");
-        rolField.setText("");
+        rolComboBox.setSelectedIndex(0);
         userField.setText("");
         passwordField.setText("");
     }
-    
     
 
     public static void main(String args[]) {

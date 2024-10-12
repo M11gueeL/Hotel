@@ -67,323 +67,289 @@ public class Dashboard extends javax.swing.JFrame {
           
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+              // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+              private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        ManageUsers = new javax.swing.JButton();
-        GenerateRooms = new javax.swing.JButton();
-        ManageReservation = new javax.swing.JButton();
-        RegisterClient = new javax.swing.JButton();
-        ManageClients = new javax.swing.JButton();
-        LogOutButton = new javax.swing.JButton();
-        ManageRooms = new javax.swing.JButton();
-        lblImagen = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        welcomeLabel = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        reservations = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        Clients = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        Rooms = new javax.swing.JLabel();
+                            jPanel1 = new javax.swing.JPanel();
+                            lblImagen = new javax.swing.JLabel();
+                            welcomeLabel = new javax.swing.JLabel();
+                            jPanel3 = new javax.swing.JPanel();
+                            jLabel5 = new javax.swing.JLabel();
+                            reservations = new javax.swing.JLabel();
+                            jPanel4 = new javax.swing.JPanel();
+                            Clients = new javax.swing.JLabel();
+                            jLabel3 = new javax.swing.JLabel();
+                            jPanel5 = new javax.swing.JPanel();
+                            jLabel1 = new javax.swing.JLabel();
+                            Rooms = new javax.swing.JLabel();
+                            ManageClients = new javax.swing.JButton();
+                            ManageUsers = new javax.swing.JButton();
+                            GenerateRooms = new javax.swing.JButton();
+                            RegisterClient = new javax.swing.JButton();
+                            ManageRooms = new javax.swing.JButton();
+                            ManageReservation = new javax.swing.JButton();
+                            LogOutButton = new javax.swing.JButton();
+                            jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(730, 520));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+                            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                            setMinimumSize(new java.awt.Dimension(730, 520));
+                            getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+                            jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
-        ManageUsers.setBackground(new java.awt.Color(102, 102, 102));
-        ManageUsers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        ManageUsers.setForeground(new java.awt.Color(255, 255, 255));
-        ManageUsers.setText("Administrar usuarios");
-        ManageUsers.setBorder(null);
-        ManageUsers.setFocusPainted(false);
-        ManageUsers.setFocusable(false);
-        ManageUsers.setIconTextGap(12);
-        ManageUsers.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                ManageUsersFocusGained(evt);
-            }
-        });
-        ManageUsers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManageUsersActionPerformed(evt);
-            }
-        });
+                            lblImagen.setBackground(new java.awt.Color(255, 255, 255));
+                            lblImagen.setForeground(new java.awt.Color(255, 255, 255));
 
-        GenerateRooms.setBackground(new java.awt.Color(102, 102, 102));
-        GenerateRooms.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        GenerateRooms.setForeground(new java.awt.Color(255, 255, 255));
-        GenerateRooms.setText("Habitaciones");
-        GenerateRooms.setBorder(null);
-        GenerateRooms.setFocusPainted(false);
-        GenerateRooms.setFocusable(false);
-        GenerateRooms.setIconTextGap(12);
-        GenerateRooms.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GenerateRoomsActionPerformed(evt);
-            }
-        });
+                            welcomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+                            welcomeLabel.setForeground(new java.awt.Color(255, 255, 255));
+                            welcomeLabel.setText("jLabel1");
 
-        ManageReservation.setBackground(new java.awt.Color(102, 102, 102));
-        ManageReservation.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        ManageReservation.setForeground(new java.awt.Color(255, 255, 255));
-        ManageReservation.setText("Reservas");
-        ManageReservation.setBorder(null);
-        ManageReservation.setFocusPainted(false);
-        ManageReservation.setFocusable(false);
-        ManageReservation.setIconTextGap(12);
-        ManageReservation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManageReservationActionPerformed(evt);
-            }
-        });
+                            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+                            jPanel1.setLayout(jPanel1Layout);
+                            jPanel1Layout.setHorizontalGroup(
+                                          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(73, 73, 73)
+                                                        .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addContainerGap(174, Short.MAX_VALUE))
+                            );
+                            jPanel1Layout.setVerticalGroup(
+                                          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addComponent(lblImagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                          .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addGap(43, 43, 43)
+                                                        .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addContainerGap())
+                            );
 
-        RegisterClient.setBackground(new java.awt.Color(102, 102, 102));
-        RegisterClient.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        RegisterClient.setForeground(new java.awt.Color(255, 255, 255));
-        RegisterClient.setText("Registrar cliente");
-        RegisterClient.setBorder(null);
-        RegisterClient.setFocusPainted(false);
-        RegisterClient.setFocusable(false);
-        RegisterClient.setIconTextGap(12);
-        RegisterClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegisterClientActionPerformed(evt);
-            }
-        });
+                            lblImagen.setIcon(new javax.swing.ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.png")).getImage().getScaledInstance(198, 131, 0)));
 
-        ManageClients.setBackground(new java.awt.Color(102, 102, 102));
-        ManageClients.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        ManageClients.setForeground(new java.awt.Color(255, 255, 255));
-        ManageClients.setText("Administrar clientes");
-        ManageClients.setBorder(null);
-        ManageClients.setFocusPainted(false);
-        ManageClients.setFocusable(false);
-        ManageClients.setIconTextGap(12);
-        ManageClients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManageClientsActionPerformed(evt);
-            }
-        });
+                            getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 140));
 
-        LogOutButton.setBackground(new java.awt.Color(46, 134, 193));
-        LogOutButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        LogOutButton.setForeground(new java.awt.Color(255, 255, 255));
-        LogOutButton.setText("Cerrar Sesión");
-        LogOutButton.setBorder(null);
-        LogOutButton.setFocusPainted(false);
-        LogOutButton.setFocusable(false);
-        LogOutButton.setIconTextGap(12);
-        LogOutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LogOutButtonActionPerformed(evt);
-            }
-        });
+                            jPanel3.setBackground(new java.awt.Color(46, 134, 193));
 
-        ManageRooms.setBackground(new java.awt.Color(102, 102, 102));
-        ManageRooms.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        ManageRooms.setForeground(new java.awt.Color(255, 255, 255));
-        ManageRooms.setText("Administrar habitaciones");
-        ManageRooms.setBorder(null);
-        ManageRooms.setFocusPainted(false);
-        ManageRooms.setFocusable(false);
-        ManageRooms.setIconTextGap(12);
-        ManageRooms.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ManageRoomsActionPerformed(evt);
-            }
-        });
+                            jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+                            jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+                            jLabel5.setText("Reservas ");
 
-        lblImagen.setBackground(new java.awt.Color(255, 255, 255));
-        lblImagen.setForeground(new java.awt.Color(255, 255, 255));
-        lblImagen.setText("logo");
+                            reservations.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
+                            reservations.setForeground(new java.awt.Color(255, 255, 255));
+                            reservations.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                            reservations.setText("jLabel6");
+                            reservations.setToolTipText("");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ManageUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ManageClients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ManageRooms, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                            .addComponent(RegisterClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(GenerateRooms, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ManageReservation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(7, Short.MAX_VALUE))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ManageReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(GenerateRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RegisterClient, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ManageRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ManageClients, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ManageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+                            javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+                            jPanel3.setLayout(jPanel3Layout);
+                            jPanel3Layout.setHorizontalGroup(
+                                          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addComponent(reservations, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 30, Short.MAX_VALUE))
+                                          .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            );
+                            jPanel3Layout.setVerticalGroup(
+                                          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(reservations, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
+                            );
 
-        lblImagen.setIcon(new javax.swing.ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.png")).getImage().getScaledInstance(198, 131, 0)));
+                            getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 220, 130));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 210, 420));
+                            jPanel4.setBackground(new java.awt.Color(46, 134, 193));
 
-        jPanel2.setBackground(new java.awt.Color(46, 134, 193));
-        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                            Clients.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
+                            Clients.setForeground(new java.awt.Color(255, 255, 255));
+                            Clients.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                            Clients.setText("jLabel4");
+                            Clients.setToolTipText("");
 
-        welcomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        welcomeLabel.setForeground(new java.awt.Color(255, 255, 255));
-        welcomeLabel.setText("jLabel1");
+                            jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+                            jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+                            jLabel3.setText("Clientes Registrados");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(397, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
+                            javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+                            jPanel4.setLayout(jPanel4Layout);
+                            jPanel4Layout.setHorizontalGroup(
+                                          jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel4Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
+                                          .addGroup(jPanel4Layout.createSequentialGroup()
+                                                        .addComponent(Clients, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 0, Short.MAX_VALUE))
+                            );
+                            jPanel4Layout.setVerticalGroup(
+                                          jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel4Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(Clients, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                            );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 60));
+                            getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 220, 130));
 
-        jPanel3.setBackground(new java.awt.Color(46, 134, 193));
+                            jPanel5.setBackground(new java.awt.Color(46, 134, 193));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Reservas ");
+                            jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+                            jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+                            jLabel1.setText("Habitaciones Registradas");
 
-        reservations.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
-        reservations.setForeground(new java.awt.Color(255, 255, 255));
-        reservations.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        reservations.setText("jLabel6");
-        reservations.setToolTipText("");
+                            Rooms.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
+                            Rooms.setForeground(new java.awt.Color(255, 255, 255));
+                            Rooms.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+                            Rooms.setText("jLabel2");
+                            Rooms.setToolTipText("");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(reservations, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(reservations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(25, 25, 25))
-        );
+                            javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+                            jPanel5.setLayout(jPanel5Layout);
+                            jPanel5Layout.setHorizontalGroup(
+                                          jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel5Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
+                                          .addGroup(jPanel5Layout.createSequentialGroup()
+                                                        .addComponent(Rooms, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 0, Short.MAX_VALUE))
+                            );
+                            jPanel5Layout.setVerticalGroup(
+                                          jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel5Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(Rooms, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                            );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 345, 220, 130));
+                            getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 220, 220, 130));
 
-        jPanel4.setBackground(new java.awt.Color(46, 134, 193));
+                            ManageClients.setBackground(new java.awt.Color(102, 102, 102));
+                            ManageClients.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            ManageClients.setForeground(new java.awt.Color(255, 255, 255));
+                            ManageClients.setText("Administrar clientes");
+                            ManageClients.setBorder(null);
+                            ManageClients.setFocusPainted(false);
+                            ManageClients.setFocusable(false);
+                            ManageClients.setIconTextGap(12);
+                            ManageClients.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        ManageClientsActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(ManageClients, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 198, 33));
 
-        Clients.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
-        Clients.setForeground(new java.awt.Color(255, 255, 255));
-        Clients.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        Clients.setText("jLabel4");
-        Clients.setToolTipText("");
+                            ManageUsers.setBackground(new java.awt.Color(102, 102, 102));
+                            ManageUsers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            ManageUsers.setForeground(new java.awt.Color(255, 255, 255));
+                            ManageUsers.setText("Administrar usuarios");
+                            ManageUsers.setBorder(null);
+                            ManageUsers.setFocusPainted(false);
+                            ManageUsers.setFocusable(false);
+                            ManageUsers.setIconTextGap(12);
+                            ManageUsers.addFocusListener(new java.awt.event.FocusAdapter() {
+                                          public void focusGained(java.awt.event.FocusEvent evt) {
+                                                        ManageUsersFocusGained(evt);
+                                          }
+                            });
+                            ManageUsers.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        ManageUsersActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(ManageUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 380, 198, 33));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Clientes Registrados");
+                            GenerateRooms.setBackground(new java.awt.Color(102, 102, 102));
+                            GenerateRooms.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            GenerateRooms.setForeground(new java.awt.Color(255, 255, 255));
+                            GenerateRooms.setText("Generador de habitaciones");
+                            GenerateRooms.setBorder(null);
+                            GenerateRooms.setFocusPainted(false);
+                            GenerateRooms.setFocusable(false);
+                            GenerateRooms.setIconTextGap(12);
+                            GenerateRooms.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        GenerateRoomsActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(GenerateRooms, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 197, 33));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(Clients, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Clients, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                            RegisterClient.setBackground(new java.awt.Color(102, 102, 102));
+                            RegisterClient.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            RegisterClient.setForeground(new java.awt.Color(255, 255, 255));
+                            RegisterClient.setText("Registrar un cliente");
+                            RegisterClient.setBorder(null);
+                            RegisterClient.setFocusPainted(false);
+                            RegisterClient.setFocusable(false);
+                            RegisterClient.setIconTextGap(12);
+                            RegisterClient.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        RegisterClientActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(RegisterClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 160, 33));
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 205, 220, 130));
+                            ManageRooms.setBackground(new java.awt.Color(102, 102, 102));
+                            ManageRooms.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            ManageRooms.setForeground(new java.awt.Color(255, 255, 255));
+                            ManageRooms.setText("Gestionar habitaciones");
+                            ManageRooms.setBorder(null);
+                            ManageRooms.setFocusPainted(false);
+                            ManageRooms.setFocusable(false);
+                            ManageRooms.setIconTextGap(12);
+                            ManageRooms.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        ManageRoomsActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(ManageRooms, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 180, 33));
 
-        jPanel5.setBackground(new java.awt.Color(46, 134, 193));
+                            ManageReservation.setBackground(new java.awt.Color(102, 102, 102));
+                            ManageReservation.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            ManageReservation.setForeground(new java.awt.Color(255, 255, 255));
+                            ManageReservation.setText("Gestionar reservas");
+                            ManageReservation.setBorder(null);
+                            ManageReservation.setFocusPainted(false);
+                            ManageReservation.setFocusable(false);
+                            ManageReservation.setIconTextGap(12);
+                            ManageReservation.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        ManageReservationActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(ManageReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 142, 33));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Habitaciones Registradas");
+                            LogOutButton.setBackground(new java.awt.Color(46, 134, 193));
+                            LogOutButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            LogOutButton.setForeground(new java.awt.Color(255, 255, 255));
+                            LogOutButton.setText("Cerrar Sesión");
+                            LogOutButton.setBorder(null);
+                            LogOutButton.setFocusPainted(false);
+                            LogOutButton.setFocusable(false);
+                            LogOutButton.setIconTextGap(12);
+                            LogOutButton.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        LogOutButtonActionPerformed(evt);
+                                          }
+                            });
+                            getContentPane().add(LogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 140, 30));
 
-        Rooms.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
-        Rooms.setForeground(new java.awt.Color(255, 255, 255));
-        Rooms.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        Rooms.setText("jLabel2");
-        Rooms.setToolTipText("");
+                            jButton1.setBackground(new java.awt.Color(102, 102, 102));
+                            jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            jButton1.setForeground(new java.awt.Color(255, 255, 255));
+                            jButton1.setText("Gestionar servicios");
+                            jButton1.setBorder(null);
+                            jButton1.setBorderPainted(false);
+                            getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 382, 190, 30));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(Rooms, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Rooms, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 65, 220, 130));
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+                            pack();
+              }// </editor-fold>//GEN-END:initComponents
               
               
     private void GenerateRoomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateRoomsActionPerformed
@@ -445,26 +411,26 @@ public class Dashboard extends javax.swing.JFrame {
         
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Clients;
-    private javax.swing.JButton GenerateRooms;
-    private javax.swing.JButton LogOutButton;
-    private javax.swing.JButton ManageClients;
-    private javax.swing.JButton ManageReservation;
-    private javax.swing.JButton ManageRooms;
-    private javax.swing.JButton ManageUsers;
-    private javax.swing.JButton RegisterClient;
-    private javax.swing.JLabel Rooms;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JLabel lblImagen;
-    private javax.swing.JLabel reservations;
-    private javax.swing.JLabel welcomeLabel;
-    // End of variables declaration//GEN-END:variables
+              // Variables declaration - do not modify//GEN-BEGIN:variables
+              private javax.swing.JLabel Clients;
+              private javax.swing.JButton GenerateRooms;
+              private javax.swing.JButton LogOutButton;
+              private javax.swing.JButton ManageClients;
+              private javax.swing.JButton ManageReservation;
+              private javax.swing.JButton ManageRooms;
+              private javax.swing.JButton ManageUsers;
+              private javax.swing.JButton RegisterClient;
+              private javax.swing.JLabel Rooms;
+              private javax.swing.JButton jButton1;
+              private javax.swing.JLabel jLabel1;
+              private javax.swing.JLabel jLabel3;
+              private javax.swing.JLabel jLabel5;
+              private javax.swing.JPanel jPanel1;
+              private javax.swing.JPanel jPanel3;
+              private javax.swing.JPanel jPanel4;
+              private javax.swing.JPanel jPanel5;
+              private javax.swing.JLabel lblImagen;
+              private javax.swing.JLabel reservations;
+              private javax.swing.JLabel welcomeLabel;
+              // End of variables declaration//GEN-END:variables
 }
