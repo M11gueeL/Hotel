@@ -9,7 +9,7 @@ public class RoomsManager extends JFrame {
 
     private JTable roomsTable;
     private DefaultTableModel tableModel;
-    private JButton editButton, deleteButton, refreshButton, exitButton, generateButton;
+    private JButton editButton, deleteButton, refreshButton, generateButton, avalibleRoomsReport, occupiedRoomsReport;
     private Utils utils;
 
     public RoomsManager() {
@@ -20,7 +20,7 @@ public class RoomsManager extends JFrame {
 
     private void initComponents() {
         setTitle("Gestión de Habitaciones");
-        setSize(800, 400);
+        setSize(700, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -39,17 +39,21 @@ public class RoomsManager extends JFrame {
         editButton = createStyledButton("Editar", buttonColor, textColor);
         deleteButton = createStyledButton("Eliminar", buttonColor, textColor);
         refreshButton = createStyledButton("Refrescar", buttonColor, textColor);
-        exitButton = createStyledButton("Salir", buttonColor, textColor);
+        occupiedRoomsReport = createStyledButton("Habitaciones ocupadas", buttonColor, textColor);
         generateButton = createStyledButton("Generador de habitaciones", buttonColor, textColor);
+        avalibleRoomsReport = createStyledButton("Habitaciones disponibles", buttonColor, textColor);
+       
 
         // Button panel
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new GridLayout(0, 3, 5, 5));
         buttonPanel.setBackground(backgroundColor);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(refreshButton);
+        buttonPanel.add(occupiedRoomsReport);
         buttonPanel.add(generateButton);
-        buttonPanel.add(exitButton);
+        buttonPanel.add(avalibleRoomsReport);
+       
 
         // Main layout
         setLayout(new BorderLayout());
@@ -60,8 +64,9 @@ public class RoomsManager extends JFrame {
         editButton.addActionListener(e -> editSelectedRoom());
         deleteButton.addActionListener(e -> deleteSelectedRoom());
         refreshButton.addActionListener(e -> refreshTable());
-        exitButton.addActionListener(e -> dispose());
+        occupiedRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesOcupadas());
         generateButton.addActionListener(e -> openRoomsGenerator());
+        avalibleRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesDisponibles());
     }
 
     private JButton createStyledButton(String text, Color bgColor, Color fgColor) {

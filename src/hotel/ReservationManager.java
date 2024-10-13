@@ -69,7 +69,7 @@ public class ReservationManager extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombreTabla = "reservas";
-                CreatePDF.exportarTablaPDF(nombreTabla);
+                PdfReportGenerator.exportReservationToPdf(nombreTabla);
                 JOptionPane.showMessageDialog(null, "PDF exportado exitosamente al escritorio.");
             }
         });
