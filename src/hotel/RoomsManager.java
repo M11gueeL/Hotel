@@ -30,9 +30,10 @@ public class RoomsManager extends JFrame {
         Color textColor = Color.WHITE;
 
         // Table
-        String[] columnNames = {"ID", "Disponibilidad", "Precio", "Tipo", "Nombre"};
+        String[] columnNames = {"ID", "Disponibilidad", "Capacidad", "Precio", "Tipo", "Nombre"};
         tableModel = new DefaultTableModel(columnNames, 0);
         roomsTable = new JTable(tableModel);
+        roomsTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         JScrollPane scrollPane = new JScrollPane(roomsTable);
         
         // Buttons
@@ -58,7 +59,7 @@ public class RoomsManager extends JFrame {
 
         // Add action listeners
         editButton.addActionListener(e -> editSelectedRoom());
-        deleteButton.addActionListener(e -> deleteSelectedRoom());
+        deleteButton.addActionListener(e -> deleteSelectedRooms());
         refreshButton.addActionListener(e -> refreshTable());
         exitButton.addActionListener(e -> dispose());
         generateButton.addActionListener(e -> openRoomsGenerator());
@@ -104,7 +105,8 @@ public class RoomsManager extends JFrame {
             while (rs.next()) {
                 Object[] row = {
                     rs.getInt("id_habitacion"),
-                    rs.getBoolean("disponibilidad"),
+                    rs.getBoolean("disponibilidad") ? "Disponible" : "No disponible",
+                    rs.getInt("capacidad"),
                     rs.getInt("precio"),
                     rs.getString("tipo"),
                     rs.getString("nombre")
@@ -130,22 +132,24 @@ public class RoomsManager extends JFrame {
         }
     }
 
-    private void deleteSelectedRoom() {
-          int selectedRow = roomsTable.getSelectedRow();
-        if (selectedRow != -1) {
-            int id = (int) tableModel.getValueAt(selectedRow, 0);
-            int confirm = JOptionPane.showConfirmDialog(this, 
-                "¿Está seguro de que desea eliminar esta habitación?", 
+    private void deleteSelectedRooms() {
+        int[] selectedRows = roomsTable.getSelectedRows();
+        if (selectedRows.length > 0) {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de que desea eliminar " + selectedRows.length + " habitación(es)?",
                 "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                deleteRoom(id);
-                loadRoomsData(); // Refresh table after delete
+                for (int i = selectedRows.length - 1; i >= 0; i--) {
+                    int modelRow = roomsTable.convertRowIndexToModel(selectedRows[i]);
+                    int id = (int) tableModel.getValueAt(modelRow, 0);
+                    deleteRoom(id);
+                }
+                loadRoomsData(); // Refresh table after deletes
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione una habitación para eliminar.");
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una o más habitaciones para eliminar.");
         }
     }
-
     private void deleteRoom(int id) {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement("DELETE FROM habitaciones WHERE id_habitacion = ?")) {

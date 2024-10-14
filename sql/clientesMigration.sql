@@ -11,3 +11,4 @@ ALTER TABLE habitaciones ADD COLUMN nombre VARCHAR(60);
 
 ALTER TABLE reservas CHANGE COLUMN id_habitacion id_habitaciones INTEGER;
 ALTER TABLE reservas MODIFY COLUMN fecha_salida DATE;
+ALTER TABLE habitaciones ADD capacidad INT;
