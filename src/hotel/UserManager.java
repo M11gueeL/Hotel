@@ -19,10 +19,11 @@ public class UserManager extends JFrame {
 
     public UserManager() {
         setTitle("Gestión de Usuarios");
-        setSize(800, 400); // Aumentado el tamaño para mejor visualización
+        setSize(800, 400);
         setLocationRelativeTo(null);
         getContentPane().setBackground(BACKGROUND_COLOR);
         setResizable(false);
+
         // Configuración del modelo de tabla y la tabla
         tableModel = new DefaultTableModel(new String[]{"ID", "Nombre", "Apellido", "Cédula", "Teléfono", "Email", "Rol", "Usuario", "Contraseña"}, 0) {
             @Override
@@ -42,9 +43,12 @@ public class UserManager extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(BACKGROUND_COLOR);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
+        JButton btnRegister = createStyledButton("Registrar Nuevo");
         JButton btnDelete = createStyledButton("Eliminar");
         JButton btnEdit = createStyledButton("Editar");
         JButton btnExit = createStyledButton("Salir");
+        buttonPanel.add(btnRegister);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espacio entre botones
         buttonPanel.add(btnDelete);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espacio entre botones
         buttonPanel.add(btnEdit);
@@ -53,6 +57,7 @@ public class UserManager extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Acciones de los botones
+        btnRegister.addActionListener(e -> registerNewUser());
         btnDelete.addActionListener(e -> deleteSelectedUser());
         btnEdit.addActionListener(e -> editSelectedUser());
         btnExit.addActionListener(e -> dispose());
@@ -121,6 +126,18 @@ public class UserManager extends JFrame {
         }
     }
 
+    // Método para registrar un nuevo usuario
+    private void registerNewUser() {
+        RegisterForm registerForm = new RegisterForm();
+        registerForm.setVisible(true);
+        registerForm.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                loadUsers("usuarios");
+            }
+        });
+    }
+
     // Método para eliminar usuario seleccionado
     private void deleteSelectedUser() {
         int selectedRow = table.getSelectedRow();
@@ -141,13 +158,83 @@ public class UserManager extends JFrame {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
             int idEmpleado = (int) tableModel.getValueAt(selectedRow, 0);
-            String[] fields = {"nombre", "apellido", "cedula", "telefono", "email"};
-            new Utils().editRecord("usuarios", idEmpleado, "id_empleado", fields, "Usuarios");
-            loadUsers("usuarios");
+            String[] currentValues = new String[9];
+            for (int i = 0; i < 9; i++) {
+                currentValues[i] = tableModel.getValueAt(selectedRow, i).toString();
+            }
+            showEditForm(idEmpleado, currentValues);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario para editar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    // Método para mostrar el formulario de edición
+   private void showEditForm(int idEmpleado, String[] currentValues) {
+    JDialog editDialog = new JDialog(this, "Editar Usuario", true);
+    editDialog.setSize(500, 600); // Aumentado el tamaño
+    editDialog.setLocationRelativeTo(this);
+    editDialog.setLayout(new BorderLayout());
+
+    JPanel formPanel = new JPanel(new GridBagLayout());
+    formPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30)); // Aumentado el padding
+    formPanel.setBackground(BACKGROUND_COLOR);
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(10, 10, 10, 10); // Aumentado el espacio entre componentes
+    gbc.weightx = 1.0; // Permite que los componentes se expandan horizontalmente
+
+    String[] labels = {"Nombre", "Apellido", "Cédula", "Teléfono", "Email", "Rol", "Usuario", "Contraseña"};
+    JTextField[] fields = new JTextField[8];
+
+    for (int i = 0; i < labels.length; i++) {
+        gbc.gridx = 0;
+        gbc.gridy = i;
+        gbc.anchor = GridBagConstraints.WEST;
+        JLabel label = new JLabel(labels[i]);
+        label.setForeground(TEXT_COLOR);
+        label.setFont(new Font("Arial", Font.BOLD, 14)); // Aumentado el tamaño de la fuente
+        formPanel.add(label, gbc);
+
+        gbc.gridx = 1;
+        fields[i] = new JTextField(currentValues[i + 1], 20);
+        fields[i].setFont(new Font("Arial", Font.PLAIN, 14)); // Aumentado el tamaño de la fuente
+        formPanel.add(fields[i], gbc);
+    }
+
+    JButton saveButton = createStyledButton("Guardar");
+    saveButton.addActionListener(e -> {
+        updateUser(idEmpleado, fields);
+        editDialog.dispose();
+        loadUsers("usuarios");
+    });
+
+    JPanel buttonPanel = new JPanel();
+    buttonPanel.setBackground(BACKGROUND_COLOR);
+    buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Añadido padding inferior
+    buttonPanel.add(saveButton);
+
+    editDialog.add(formPanel, BorderLayout.CENTER);
+    editDialog.add(buttonPanel, BorderLayout.SOUTH);
+    editDialog.setVisible(true);
+}
+
+    // Método para actualizar usuario en la base de datos
+    private void updateUser(int idEmpleado, JTextField[] fields) {
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(
+                 "UPDATE usuarios SET nombre=?, apellido=?, cedula=?, telefono=?, email=?, usuario=?, password=? WHERE id_empleado=?")) {
+        for (int i = 0; i < fields.length; i++) {
+            pstmt.setString(i + 1, fields[i].getText());
+        }
+        pstmt.setInt(8, idEmpleado);
+        pstmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Usuario actualizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al actualizar el usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
     // Método para eliminar usuario de la base de datos
     public void deleteUser(String tableName, int idEmpleado) {

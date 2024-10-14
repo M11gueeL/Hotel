@@ -1,2 +1,8 @@
 src/hotel/DatabaseConnection.java
 private.xml
+/nbproject/private/
+/build/
+/nbproject/*
+
+build/*
+build/

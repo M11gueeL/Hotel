@@ -2,8 +2,8 @@ ALTER TABLE clientes ADD COLUMN id_habitacion INTEGER;
 
 ALTER TABLE clientes DROP COLUMN id_habitacion;
 
---Cliente de prueba
-INSERT INTO clientes (nombre, apellido, cedula, telefono, id_habitacion) VALUES ('Juan', 'Perez',31182932,04243132091, 1);
+-- Cliente de prueba
+INSERT INTO clientes (nombre, apellido, cedula, telefono) VALUES ('Juan', 'Perez',31182932,04243132091);
 
 ALTER TABLE clientes MODIFY telefono VARCHAR(30);
 
