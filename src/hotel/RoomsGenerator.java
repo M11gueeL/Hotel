@@ -67,7 +67,7 @@ public class RoomsGenerator extends JFrame {
         panel.add(vipRoomRadio, gbc);
 
         addLabelAndTextField(panel, "Número de Habitaciones:", 2, roomsText = createStyledTextField());
-        addLabelAndTextField(panel, "Precio de las Habitaciones (Variante con servicios):", 3, roomsPriceText = createStyledTextField());
+        addLabelAndTextField(panel, "Precio de las Habitaciones:", 3, roomsPriceText = createStyledTextField());
         addLabelAndTextField(panel, "Personas máximas en la habitación:", 4, roomsCapacity = createStyledTextField());
 
         JButton generateButton = createStyledButton("Generar Habitaciones");

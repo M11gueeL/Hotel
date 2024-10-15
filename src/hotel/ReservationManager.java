@@ -143,7 +143,7 @@ public class ReservationManager extends JFrame {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
             int idReserva = (int) tableModel.getValueAt(selectedRow, 0);
-            String[] fields = {"id_habitaciones", "fecha_entrada", "fecha_salida"};
+            String[] fields = {"id_habitacion", "fecha_entrada", "fecha_salida"};
             new Utils().editRecord("reservas", idReserva, "id_reserva", fields, "Reserva");
             loadReservations("reservas");
         } else {
@@ -229,10 +229,10 @@ public class ReservationManager extends JFrame {
 public void loadReservations(String tableName) {
     tableModel.setRowCount(0);
     String query = "SELECT r.id_reserva, GROUP_CONCAT(rc.id_cliente ORDER BY rc.es_titular DESC SEPARATOR ' - ') AS clientes_ids, " +
-                   "r.id_habitaciones, r.fecha_entrada, r.fecha_salida " +
+                   "r.id_habitacion, r.fecha_entrada, r.fecha_salida " +
                    "FROM " + tableName + " r " +
                    "LEFT JOIN reservas_clientes rc ON r.id_reserva = rc.id_reserva " +
-                   "GROUP BY r.id_reserva, r.id_habitaciones, r.fecha_entrada, r.fecha_salida";
+                   "GROUP BY r.id_reserva, r.id_habitacion, r.fecha_entrada, r.fecha_salida";
 
     try (Connection conn = DatabaseConnection.getConnection();
          Statement stmt = conn.createStatement();
@@ -241,7 +241,7 @@ public void loadReservations(String tableName) {
             tableModel.addRow(new Object[]{
                 rs.getInt("id_reserva"),
                 rs.getString("clientes_ids"),
-                rs.getInt("id_habitaciones"),
+                rs.getInt("id_habitacion"),
                 rs.getString("fecha_entrada"),
                 rs.getString("fecha_salida"),
             });

@@ -228,7 +228,7 @@ private int agregarReserva(int habitacionId, String fechaEntrada, String fechaSa
         conn.setAutoCommit(false);
 
         // Insertar la nueva reserva
-        String insertReservaQuery = "INSERT INTO reservas (id_habitaciones, fecha_entrada, fecha_salida, numero_personas) VALUES (?, ?, ?, ?)";
+        String insertReservaQuery = "INSERT INTO reservas (id_habitacion, fecha_entrada, fecha_salida, numero_personas) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(insertReservaQuery, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, habitacionId);
             pstmt.setString(2, fechaEntrada);
