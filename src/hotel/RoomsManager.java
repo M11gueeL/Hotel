@@ -9,7 +9,7 @@ public class RoomsManager extends JFrame {
 
     private JTable roomsTable;
     private DefaultTableModel tableModel;
-    private JButton editButton, deleteButton, refreshButton, generateButton, avalibleRoomsReport, occupiedRoomsReport;
+    private JButton editButton, deleteButton, generateButton, avalibleRoomsReport, occupiedRoomsReport, desocuparButton;
     private Utils utils;
 
     public RoomsManager() {
@@ -39,10 +39,11 @@ public class RoomsManager extends JFrame {
         // Buttons
         editButton = createStyledButton("Editar", buttonColor, textColor);
         deleteButton = createStyledButton("Eliminar", buttonColor, textColor);
-        refreshButton = createStyledButton("Refrescar", buttonColor, textColor);
         occupiedRoomsReport = createStyledButton("Habitaciones ocupadas", buttonColor, textColor);
         generateButton = createStyledButton("Generador de habitaciones", buttonColor, textColor);
         avalibleRoomsReport = createStyledButton("Habitaciones disponibles", buttonColor, textColor);
+        desocuparButton = createStyledButton("Desocupar Habitación", buttonColor, textColor);
+
        
 
         // Button panel
@@ -50,10 +51,10 @@ public class RoomsManager extends JFrame {
         buttonPanel.setBackground(backgroundColor);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(refreshButton);
         buttonPanel.add(occupiedRoomsReport);
         buttonPanel.add(generateButton);
         buttonPanel.add(avalibleRoomsReport);
+        buttonPanel.add(desocuparButton);
        
 
         // Main layout
@@ -64,10 +65,10 @@ public class RoomsManager extends JFrame {
         // Add action listeners
         editButton.addActionListener(e -> editSelectedRoom());
         deleteButton.addActionListener(e -> deleteSelectedRooms());
-        refreshButton.addActionListener(e -> refreshTable());
         occupiedRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesOcupadas());
         generateButton.addActionListener(e -> openRoomsGenerator());
         avalibleRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesDisponibles());
+        desocuparButton.addActionListener(e -> desocuparSelectedRoom());
     }
 
     private JButton createStyledButton(String text, Color bgColor, Color fgColor) {
@@ -165,6 +166,73 @@ public class RoomsManager extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al eliminar la habitación: " + e.getMessage());
         }
     }
+    
+    private void desocuparSelectedRoom() {
+    int selectedRow = roomsTable.getSelectedRow();
+    if (selectedRow != -1) {
+        int idHabitacion = (int) tableModel.getValueAt(selectedRow, 0);
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "¿Está seguro de que desea desocupar esta habitación?",
+            "Confirmar desocupación", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            desocuparHabitacion(idHabitacion);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione una habitación para desocupar.");
+    }
+}
+    
+    public void desocuparHabitacion(int idHabitacion) {
+              Connection conn = null;
+              try {
+                  conn = DatabaseConnection.getConnection();
+                  conn.setAutoCommit(false);  // Iniciar transacción
+
+                  // Actualizar la disponibilidad de la habitación a true
+                  try (PreparedStatement pstmtUpdateRoom = conn.prepareStatement("UPDATE habitaciones SET disponibilidad = true WHERE id_habitacion = ?")) {
+                      pstmtUpdateRoom.setInt(1, idHabitacion);
+                      int rowsAffected = pstmtUpdateRoom.executeUpdate();
+
+                      if (rowsAffected == 0) {
+                          throw new SQLException("No se encontró la habitación con ID: " + idHabitacion);
+                      }
+                  }
+
+                  // Desvincular la habitación de la reserva actual
+                  try (PreparedStatement pstmtUpdateReserva = conn.prepareStatement("UPDATE reservas SET id_habitacion = NULL WHERE id_habitacion = ?")) {
+                      pstmtUpdateReserva.setInt(1, idHabitacion);
+                      pstmtUpdateReserva.executeUpdate();
+                  }
+
+                  // Confirmar la transacción
+                  conn.commit();
+                  JOptionPane.showMessageDialog(this, "Habitación desocupada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                  // Refrescar la tabla de habitaciones
+                  loadRoomsData();
+              } catch (SQLException e) {
+                  // Si algo salió mal, hacer rollback
+                  if (conn != null) {
+                      try {
+                          conn.rollback();
+                      } catch (SQLException ex) {
+                          ex.printStackTrace();
+                      }
+                  }
+                  e.printStackTrace();
+                  JOptionPane.showMessageDialog(this, "Error al desocupar la habitación: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+              } finally {
+                  // Restaurar el auto-commit y cerrar la conexión
+                  if (conn != null) {
+                      try {
+                          conn.setAutoCommit(true);
+                          conn.close();
+                      } catch (SQLException e) {
+                          e.printStackTrace();
+                      }
+                  }
+              }
+          }
 
     private void openRoomsGenerator() {
         SwingUtilities.invokeLater(() -> {
