@@ -6,6 +6,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ReservationManager extends JFrame {
     // Definición de colores para el tema
@@ -48,6 +49,11 @@ public class ReservationManager extends JFrame {
         JButton btnAdd = createStyledButton("Añadir reserva");
         JButton btnExit = createStyledButton("Salir");
         JButton btnExportarPDF = createStyledButton("Exportar a PDF");
+        JButton btnService = createStyledButton("Añadir servicio");
+
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        buttonPanel.add(btnService);buttonPanel.add(btnDelete);
 
         buttonPanel.add(btnDelete);
         buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -65,11 +71,11 @@ public class ReservationManager extends JFrame {
         btnAdd.addActionListener(e -> openReservationForm());
         btnDelete.addActionListener(e -> deleteSelectedReservation());
         btnEdit.addActionListener(e -> editSelectedReservation());
+        btnService.addActionListener(e -> openServiceSelector());
         btnExportarPDF.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombreTabla = "reservas";
-                PdfReportGenerator.exportReservationToPdf(nombreTabla);
+                PdfReportGenerator.exportarHistorialReservas();
                 JOptionPane.showMessageDialog(null, "PDF exportado exitosamente al escritorio.");
             }
         });
@@ -189,6 +195,36 @@ public class ReservationManager extends JFrame {
             }
         }
     }
+    private void openServiceSelector() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            int idReserva = (int) tableModel.getValueAt(selectedRow, 0);
+            System.out.println("ID RESERVA " + idReserva);
+            ServiceSelector serviceSelector = new ServiceSelector(idReserva);
+            serviceSelector.setIdReserva(idReserva);
+            serviceSelector.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una reserva para añadir un servicio.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private ArrayList<Double> obtenerPrecios(int idReserva) {
+    ArrayList<Double> precios = new ArrayList<>();
+    String query = "SELECT s.precio FROM servicios s JOIN reserva_servicio rs ON s.id_servicio = rs.id_servicio JOIN reserva r ON rs.id_reserva = r.id_reserva WHERE r.id_reserva = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, idReserva);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    precios.add(rs.getDouble("precio"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return precios;
+    }
+
 
 public void loadReservations(String tableName) {
     tableModel.setRowCount(0);

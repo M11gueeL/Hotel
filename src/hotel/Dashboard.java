@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+//import hotel.ServiceManager;
 
 public class Dashboard extends javax.swing.JFrame {
     private Timer updateTimer;
@@ -346,12 +347,21 @@ public class Dashboard extends javax.swing.JFrame {
                             jButton1.setText("Gestionar servicios");
                             jButton1.setBorder(null);
                             jButton1.setBorderPainted(false);
+                            jButton1.addActionListener(new java.awt.event.ActionListener() {
+                                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                    OpenServicesManager(evt);
+                                }
+                            });
                             getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 382, 190, 30));
 
                             pack();
               }// </editor-fold>//GEN-END:initComponents
               
-              
+        private void OpenServicesManager(java.awt.event.ActionEvent evt) {                                              
+        ServiceManager serviceManager = new ServiceManager();
+        serviceManager.setVisible(true);
+    }                                             
+                     
     private void GenerateRoomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateRoomsActionPerformed
         RoomsGenerator roomsGenerator = new RoomsGenerator();
         roomsGenerator.setVisible(true);
