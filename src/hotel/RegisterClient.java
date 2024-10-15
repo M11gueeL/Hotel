@@ -5,16 +5,20 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.sql.*;
 
-public class RegisterClient extends JFrame {
-    private JTextField nombreField, apellidoField, cedulaField, telefonoField;
-    private JButton registerButton;
+public class RegisterClient extends JDialog {
+   private JTextField nombreField, apellidoField, cedulaField, telefonoField;
+    private JButton registerButton, cancelButton;
+    private boolean clienteRegistrado = false;
+    private int clienteId = -1; // Nueva variable para almacenar el ID del cliente
+    private String clienteNombre; // Nueva variable para almacenar el nombre del cliente
 
     public RegisterClient() {
         setTitle("Registrar Nuevo Cliente");
         setSize(400, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setModal(true);
         setResizable(false);
+
         JPanel mainPanel = createMainPanel();
         JPanel formPanel = new JPanel(new GridLayout(4, 1, 10, 10));
         formPanel.setBackground(new Color(240, 240, 240));
@@ -27,17 +31,19 @@ public class RegisterClient extends JFrame {
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
         registerButton = createStyledButton("Registrar");
+        cancelButton = createStyledButton("Cancelar");
         registerButton.addActionListener(e -> registerClients());
+        cancelButton.addActionListener(e -> cancel());
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(new Color(240, 240, 240));
         buttonPanel.add(registerButton);
+        buttonPanel.add(cancelButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
     }
-
     // Métodos reutilizables para crear componentes estilizados
     public static JPanel createMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -54,30 +60,7 @@ public class RegisterClient extends JFrame {
             BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         return field;
     }
-
-    public static JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
-        button.setBackground(new Color(70, 130, 180));
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        return button;
-    }
-
-    public static void addFormField(JPanel panel, String label, JTextField field) {
-        JPanel fieldPanel = new JPanel(new BorderLayout(5, 5));
-        fieldPanel.setBackground(new Color(240, 240, 240));
-        
-        JLabel jLabel = new JLabel(label);
-        jLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        fieldPanel.add(jLabel, BorderLayout.NORTH);
-        fieldPanel.add(field, BorderLayout.CENTER);
-        
-        panel.add(fieldPanel);
-    }
-
-    private void registerClients() {
+private void registerClients() {
         String nombre = nombreField.getText();
         String apellido = apellidoField.getText();
         String cedula = cedulaField.getText();
@@ -103,9 +86,11 @@ public class RegisterClient extends JFrame {
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        int id = generatedKeys.getInt(1);
-                        JOptionPane.showMessageDialog(this, "Cliente registrado con éxito. ID: " + id, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        clearFields();
+                        clienteId = generatedKeys.getInt(1);
+                        clienteNombre = nombre + " " + apellido; // Guardamos el nombre completo
+                        JOptionPane.showMessageDialog(this, "Cliente registrado con éxito. ID: " + clienteId, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        clienteRegistrado = true;
+                        dispose();
                     }
                 }
             }
@@ -114,10 +99,43 @@ public class RegisterClient extends JFrame {
         }
     }
 
-    private void clearFields() {
-        nombreField.setText("");
-        apellidoField.setText("");
-        cedulaField.setText("");
-        telefonoField.setText("");
+    // Nuevo método para obtener el nombre del cliente
+    public String getClienteNombre() {
+        return clienteNombre;
+    }
+
+    public static JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        return button;
+    }
+
+    public static void addFormField(JPanel panel, String label, JTextField field) {
+        JPanel fieldPanel = new JPanel(new BorderLayout(5, 5));
+        fieldPanel.setBackground(new Color(240, 240, 240));
+        
+        JLabel jLabel = new JLabel(label);
+        jLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        fieldPanel.add(jLabel, BorderLayout.NORTH);
+        fieldPanel.add(field, BorderLayout.CENTER);
+        
+        panel.add(fieldPanel);
+    }
+
+    public boolean isClienteRegistrado() {
+        return clienteRegistrado;
+    }
+
+    // Nuevo método para obtener el ID del cliente
+    public int getClienteId() {
+        return clienteId;
+    }
+    private void cancel() {
+        clienteRegistrado = false;
+        dispose();
     }
 }

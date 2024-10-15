@@ -146,36 +146,75 @@ public class ReservationManager extends JFrame {
     }
 
     public void deleteReservation(String tableName, int idReserva) {
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM " + tableName + " WHERE id_reserva = ?")) {
-            pstmt.setInt(1, idReserva);
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Reserva eliminada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        Connection conn = null;
+        try {
+            conn = DatabaseConnection.getConnection();
+            conn.setAutoCommit(false);  // Iniciar transacción
+
+            // Primero, eliminar las entradas relacionadas en reservas_clientes
+            try (PreparedStatement pstmtClientes = conn.prepareStatement("DELETE FROM reservas_clientes WHERE id_reserva = ?")) {
+                pstmtClientes.setInt(1, idReserva);
+                pstmtClientes.executeUpdate();
+            }
+
+            // Luego, eliminar la reserva principal
+            try (PreparedStatement pstmtReserva = conn.prepareStatement("DELETE FROM " + tableName + " WHERE id_reserva = ?")) {
+                pstmtReserva.setInt(1, idReserva);
+                pstmtReserva.executeUpdate();
+            }
+
+            // Si todo salió bien, confirmar la transacción
+            conn.commit();
+            JOptionPane.showMessageDialog(this, "Reserva y sus clientes asociados eliminados con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
+            // Si algo salió mal, hacer rollback
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al eliminar la reserva: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al eliminar la reserva y sus clientes asociados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Restaurar el auto-commit y cerrar la conexión
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    public void loadReservations(String tableName) {
-        tableModel.setRowCount(0);
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName)) {
-            while (rs.next()) {
-                tableModel.addRow(new Object[]{
-                        rs.getInt("id_reserva"),
-                        rs.getInt("id_cliente"),
-                        rs.getInt("id_habitaciones"),
-                        rs.getString("fecha_entrada"),
-                        rs.getString("fecha_salida"),
-                });
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar las reservas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+public void loadReservations(String tableName) {
+    tableModel.setRowCount(0);
+    String query = "SELECT r.id_reserva, GROUP_CONCAT(rc.id_cliente ORDER BY rc.es_titular DESC SEPARATOR ' - ') AS clientes_ids, " +
+                   "r.id_habitaciones, r.fecha_entrada, r.fecha_salida " +
+                   "FROM " + tableName + " r " +
+                   "LEFT JOIN reservas_clientes rc ON r.id_reserva = rc.id_reserva " +
+                   "GROUP BY r.id_reserva, r.id_habitaciones, r.fecha_entrada, r.fecha_salida";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(query)) {
+        while (rs.next()) {
+            tableModel.addRow(new Object[]{
+                rs.getInt("id_reserva"),
+                rs.getString("clientes_ids"),
+                rs.getInt("id_habitaciones"),
+                rs.getString("fecha_entrada"),
+                rs.getString("fecha_salida"),
+            });
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al cargar las reservas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     public static void main(String[] args) {
         try {
