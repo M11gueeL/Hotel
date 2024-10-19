@@ -2,14 +2,20 @@ package hotel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.*;
 import java.sql.*;
 
 public class RoomsManager extends JFrame {
+    // Definición de colores para el tema
+    private static final Color BACKGROUND_COLOR = new Color(240, 240, 240);
+    private static final Color PRIMARY_COLOR = new Color(0, 102, 204);
+    private static final Color SECONDARY_COLOR = new Color(51, 51, 51);
 
     private JTable roomsTable;
     private DefaultTableModel tableModel;
-    private JButton editButton, deleteButton, generateButton, avalibleRoomsReport, occupiedRoomsReport, desocuparButton;
+    private JButton editButton, deleteButton, availableRoomsReport, occupiedRoomsReport, desocuparButton;
     private Utils utils;
 
     public RoomsManager() {
@@ -20,63 +26,88 @@ public class RoomsManager extends JFrame {
 
     private void initComponents() {
         setTitle("Gestión de Habitaciones");
-        setSize(700, 400);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        // Set custom colors
-        Color backgroundColor = new Color(240, 240, 240);
-        Color buttonColor = new Color(70, 130, 180);
-        Color textColor = Color.WHITE;
+        getContentPane().setBackground(BACKGROUND_COLOR);
 
         // Table
         String[] columnNames = {"ID", "Disponibilidad", "Capacidad", "Precio", "Tipo", "Nombre"};
-        tableModel = new DefaultTableModel(columnNames, 0);
+        tableModel = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         roomsTable = new JTable(tableModel);
-        roomsTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        customizeTable(roomsTable);
         JScrollPane scrollPane = new JScrollPane(roomsTable);
-        
-        // Buttons
-        editButton = createStyledButton("Editar", buttonColor, textColor);
-        deleteButton = createStyledButton("Eliminar", buttonColor, textColor);
-        occupiedRoomsReport = createStyledButton("Habitaciones ocupadas", buttonColor, textColor);
-        generateButton = createStyledButton("Generador de habitaciones", buttonColor, textColor);
-        avalibleRoomsReport = createStyledButton("Habitaciones disponibles", buttonColor, textColor);
-        desocuparButton = createStyledButton("Desocupar Habitación", buttonColor, textColor);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        add(scrollPane, BorderLayout.CENTER);
 
-       
+        // Buttons
+        editButton = createStyledButton("Editar");
+        deleteButton = createStyledButton("Eliminar");
+        availableRoomsReport = createStyledButton("Habitaciones disponibles");
+        occupiedRoomsReport = createStyledButton("Habitaciones ocupadas");
+        desocuparButton = createStyledButton("Desocupar Habitación");
 
         // Button panel
-        JPanel buttonPanel = new JPanel(new GridLayout(0, 3, 5, 5));
-        buttonPanel.setBackground(backgroundColor);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(BACKGROUND_COLOR);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(editButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(deleteButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        buttonPanel.add(availableRoomsReport);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(occupiedRoomsReport);
-        buttonPanel.add(generateButton);
-        buttonPanel.add(avalibleRoomsReport);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(desocuparButton);
-       
-
-        // Main layout
-        setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Add action listeners
         editButton.addActionListener(e -> editSelectedRoom());
         deleteButton.addActionListener(e -> deleteSelectedRooms());
+        availableRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesDisponibles());
         occupiedRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesOcupadas());
-        generateButton.addActionListener(e -> openRoomsGenerator());
-        avalibleRoomsReport.addActionListener(e -> PdfReportGenerator.exportarHabitacionesDisponibles());
         desocuparButton.addActionListener(e -> desocuparSelectedRoom());
     }
 
-    private JButton createStyledButton(String text, Color bgColor, Color fgColor) {
+    private void customizeTable(JTable table) {
+        table.setFillsViewportHeight(true);
+        table.setRowHeight(25);
+        table.setFont(new Font("Arial", Font.PLAIN, 12));
+        table.setSelectionBackground(PRIMARY_COLOR);
+        table.setSelectionForeground(Color.WHITE);
+        table.setShowVerticalLines(false);
+        table.setIntercellSpacing(new Dimension(0, 0));
+
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(SECONDARY_COLOR);
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Arial", Font.BOLD, 12));
+        header.setBorder(BorderFactory.createEmptyBorder());
+    }
+
+    private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(bgColor);
-        button.setForeground(fgColor);
+        button.setFont(new Font("Arial", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
+        button.setBackground(PRIMARY_COLOR);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         button.setFocusPainted(false);
-        button.setBorderPainted(false);
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                button.setBackground(button.getBackground().darker());
+            }
+            public void mouseExited(MouseEvent evt) {
+                button.setBackground(PRIMARY_COLOR);
+            }
+        });
         return button;
     }
     
@@ -90,7 +121,7 @@ public class RoomsManager extends JFrame {
                 Object[] row = {
                     rs.getInt("id_habitacion"),
                     rs.getBoolean("disponibilidad"),
-                    rs.getInt("precio"),
+                    rs.getInt("precio") + ("$"),
                     rs.getString("tipo"),
                     rs.getString("nombre")
                 };
@@ -113,7 +144,7 @@ public class RoomsManager extends JFrame {
                     rs.getInt("id_habitacion"),
                     rs.getBoolean("disponibilidad") ? "Disponible" : "No disponible",
                     rs.getInt("capacidad"),
-                    rs.getInt("precio"),
+                    rs.getInt("precio") + ("$"),
                     rs.getString("tipo"),
                     rs.getString("nombre")
                 };
@@ -234,16 +265,12 @@ public class RoomsManager extends JFrame {
               }
           }
 
-    private void openRoomsGenerator() {
-        SwingUtilities.invokeLater(() -> {
-            RoomsGenerator generator = new RoomsGenerator();
-            generator.setVisible(true);
-        });
-    }
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new RoomsManager().setVisible(true);
-        });
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SwingUtilities.invokeLater(() -> new RoomsManager().setVisible(true));
     }
 }

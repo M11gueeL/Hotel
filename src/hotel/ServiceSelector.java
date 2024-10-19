@@ -15,7 +15,7 @@ public class ServiceSelector extends JFrame {
 
     public ServiceSelector(int idReserva) {
         setTitle("Selector de servicios");
-        setSize(600, 400);
+        setSize(400, 400);
         setLocationRelativeTo(null);
         setResizable(false);
         JPanel panel = new JPanel();
@@ -28,9 +28,7 @@ public class ServiceSelector extends JFrame {
     }
 
     public void setIdReserva(int idReserva) {
-        this.idReserva = idReserva;
-        // Aquí puedes agregar lógica adicional si es necesario
-        // Por ejemplo, actualizar la interfaz con información específica de la reserva
+        this.idReserva = idReserva; 
     }
 
     private void placeComponents(JPanel panel) {
@@ -102,33 +100,63 @@ public class ServiceSelector extends JFrame {
     }
 
     private void asignarServicio(String nombreServicio, int idReserva) {
-        String queryServicio = "SELECT id_servicio FROM servicios WHERE nombre = ?";
-        String queryInsert = "INSERT INTO reservas_servicios (id_reserva, id_servicio) VALUES (?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmtServicio = conn.prepareStatement(queryServicio)) {
+              Connection conn = null;
+              String queryServicio = "SELECT id_servicio, precio FROM servicios WHERE nombre = ?";
+              String queryInsert = "INSERT INTO reservas_servicios (id_reserva, id_servicio) VALUES (?, ?)";
+              String queryUpdateReserva = "UPDATE reservas SET monto = monto + ? WHERE id_reserva = ?";
 
-            pstmtServicio.setString(1, nombreServicio);
-            try (ResultSet rs = pstmtServicio.executeQuery()) {
-                if (rs.next()) {
-                    int idServicio = rs.getInt("id_servicio");
-                    try (PreparedStatement pstmtInsert = conn.prepareStatement(queryInsert)) {
-                        pstmtInsert.setInt(1, idReserva);
-                        pstmtInsert.setInt(2, idServicio);
-                        System.out.println("Un nuevo servicio fue insertado exitosamente! " + idReserva + " " + nombreServicio + " " + idServicio);
+              try {
+                  conn = DatabaseConnection.getConnection();
+                  conn.setAutoCommit(false);  // Iniciamos una transacción
 
-                        int rowsInserted = pstmtInsert.executeUpdate();
-                        if (rowsInserted > 0) {
-                            JOptionPane.showMessageDialog(this, "El servicio fue agregado correctamente a la reservación.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            dispose();
-                        }
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Servicio no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+                  try (PreparedStatement pstmtServicio = conn.prepareStatement(queryServicio)) {
+                      pstmtServicio.setString(1, nombreServicio);
+                      try (ResultSet rs = pstmtServicio.executeQuery()) {
+                          if (rs.next()) {
+                              int idServicio = rs.getInt("id_servicio");
+                              int precioServicio = rs.getInt("precio");
 
+                              // Insertar en reservas_servicios
+                              try (PreparedStatement pstmtInsert = conn.prepareStatement(queryInsert)) {
+                                  pstmtInsert.setInt(1, idReserva);
+                                  pstmtInsert.setInt(2, idServicio);
+                                  pstmtInsert.executeUpdate();
+                              }
+
+                              // Actualizar el monto de la reserva
+                              try (PreparedStatement pstmtUpdate = conn.prepareStatement(queryUpdateReserva)) {
+                                  pstmtUpdate.setInt(1, precioServicio);
+                                  pstmtUpdate.setInt(2, idReserva);
+                                  pstmtUpdate.executeUpdate();
+                              }
+
+                              conn.commit();  // Confirmamos la transacción
+                              JOptionPane.showMessageDialog(this, "El servicio fue agregado correctamente a la reservación y el monto fue actualizado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                              dispose();
+                          } else {
+                              JOptionPane.showMessageDialog(this, "Servicio no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                          }
+                      }
+                  }
+              } catch (SQLException e) {
+                  e.printStackTrace();
+                  try {
+                      if (conn != null) {
+                          conn.rollback();  // En caso de error, revertimos la transacción
+                      }
+                  } catch (SQLException ex) {
+                      ex.printStackTrace();
+                  }
+                  JOptionPane.showMessageDialog(this, "Error al asignar el servicio: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+              } finally {
+                  try {
+                      if (conn != null) {
+                          conn.setAutoCommit(true);  // Restauramos el auto-commit
+                          conn.close();  // Cerramos la conexión
+                      }
+                  } catch (SQLException e) {
+                      e.printStackTrace();
+                  }
+              }
+       }
 }

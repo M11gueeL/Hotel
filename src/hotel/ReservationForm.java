@@ -41,16 +41,16 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
         agregarReservaButton = new JButton("Agregar Reserva");
         clientesListModel = new DefaultListModel<>();
         for (String cliente : getClientes()) {
-            clientesListModel.addElement(cliente);
+        clientesListModel.addElement(cliente);
         }
-        clientesList = new JList<>(clientesListModel);
-        clientesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        JScrollPane clientesScrollPane = new JScrollPane(clientesList);
-        clientesScrollPane.setPreferredSize(new Dimension(200, 150)); // Ajusta estos valores según necesites
+       clientesList = new JList<>(clientesListModel);
+       clientesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+       JScrollPane clientesScrollPane = new JScrollPane(clientesList);
+       clientesScrollPane.setPreferredSize(new Dimension(200, 150));
         agregarClienteButton = new JButton("Agregar Cliente");
 
         // Configurar JFrame
-        setSize(800, 600);
+        setSize(600, 600);
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout()); // Cambiamos a BorderLayout
@@ -75,7 +75,7 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
                         reservationManager.setVisible(true);
         // Agregar componentes al panel principal
         addComponent(mainPanel, gbc, 0, 0, new JLabel("Clientes:"), 1, 1);
-        addComponent(mainPanel, gbc, 1, 0, clientesScrollPane, 1, 3);
+        addComponent(mainPanel, gbc, 1, 0, clientesComboBox, 1, 1);
         addComponent(mainPanel, gbc, 2, 0, agregarClienteButton, 1, 1);
         addComponent(mainPanel, gbc, 0, 3, new JLabel("Habitación:"), 1, 1);
         addComponent(mainPanel, gbc, 1, 3, habitacionesComboBox, 1, 1);
@@ -125,7 +125,7 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
                             String nuevoClienteNombre = registerClient.getClienteNombre();
                             if (nuevoClienteId != -1 && nuevoClienteNombre != null && !nuevoClienteNombre.isEmpty()) {
                                 clientesMap.put(nuevoClienteNombre, nuevoClienteId);
-                                clientesListModel.addElement(nuevoClienteNombre);
+                                clientesComboBox.addItem(nuevoClienteNombre);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Error al obtener los datos del nuevo cliente.");
                             }
@@ -135,49 +135,49 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
             }
         });
             // Agregar acción al botón
-agregarReservaButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        try {
-            if (validarFechas(fechaEntradaField.getText(), fechaSalidaField.getText())) {
-                List<String> selectedClientes = clientesList.getSelectedValuesList();
-                if (selectedClientes.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, seleccione al menos un cliente.");
-                    return;
-                }
+              agregarReservaButton.addActionListener(new ActionListener() {
+                  @Override
+                  public void actionPerformed(ActionEvent e) {
+                      try {
+                          if (validarFechas(fechaEntradaField.getText(), fechaSalidaField.getText())) {
+                              String selectedCliente = (String) clientesComboBox.getSelectedItem();
+                            if (selectedCliente == null) {
+                                          JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente.");
+                                          return;
+                                          }
+                            List<String> selectedClientes = new ArrayList<>();
+                            selectedClientes.add(selectedCliente);
 
-                String selectedHabitacion = (String) habitacionesComboBox.getSelectedItem();
-                int habitacionId = habitacionesMap.get(selectedHabitacion)[0];
-                int capacidad = habitacionesMap.get(selectedHabitacion)[1];
+                              String selectedHabitacion = (String) habitacionesComboBox.getSelectedItem();
+                              int habitacionId = habitacionesMap.get(selectedHabitacion)[0];
+                              int capacidad = habitacionesMap.get(selectedHabitacion)[1];
 
-                if (selectedClientes.size() > capacidad) {
-                    JOptionPane.showMessageDialog(null, "El número de clientes seleccionados excede la capacidad de la habitación.");
-                    return;
-                }
+                              if (selectedClientes.size() > capacidad) {
+                                  JOptionPane.showMessageDialog(null, "El número de clientes seleccionados excede la capacidad de la habitación.");
+                                  return;
+                              }
 
-                if (isHabitacionDisponible(habitacionId)) {
-                    int reservaId = agregarReserva(habitacionId, fechaEntradaField.getText(), fechaSalidaField.getText(), selectedClientes);
-                    if (reservaId != -1) {
-                        for (int i = 0; i < selectedClientes.size(); i++) {
-                            int clienteId = clientesMap.get(selectedClientes.get(i));
-                            agregarClienteAReserva(reservaId, clienteId, i == 0);
-                        }
-                        JOptionPane.showMessageDialog(null, "Reserva agregada exitosamente!");
-                        dispose();
-                        ReservationManager reservationManager = new ReservationManager();
-                        reservationManager.setVisible(true);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "La habitación seleccionada no está disponible.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Las fechas ingresadas no son válidas. Deben estar en formato YYYY-MM-DD.");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al agregar reserva: " + ex.getMessage());
-        }
-    }
-});
+                              if (isHabitacionDisponible(habitacionId)) {
+                                  int reservaId = agregarReserva(habitacionId, fechaEntradaField.getText(), fechaSalidaField.getText(), selectedClientes);
+                                  if (reservaId != -1) {
+                                      for (int i = 0; i < selectedClientes.size(); i++) {
+                                          int clienteId = clientesMap.get(selectedClientes.get(i));
+                                          agregarClienteAReserva(reservaId, clienteId, i == 0);
+                                      }
+                                      JOptionPane.showMessageDialog(null, "Reserva agregada exitosamente!");
+                                      dispose();
+                                  }
+                              } else {
+                                  JOptionPane.showMessageDialog(null, "La habitación seleccionada no está disponible.");
+                              }
+                          } else {
+                              JOptionPane.showMessageDialog(null, "Las fechas ingresadas no son válidas. Deben estar en formato YYYY-MM-DD.");
+                          }
+                      } catch (SQLException ex) {
+                          JOptionPane.showMessageDialog(null, "Error al agregar reserva: " + ex.getMessage());
+                      }
+                  }
+              });
             iniciarActualizacionPeriodica();
 
             setVisible(true);
@@ -227,13 +227,17 @@ private int agregarReserva(int habitacionId, String fechaEntrada, String fechaSa
         conn = DatabaseConnection.getConnection();
         conn.setAutoCommit(false);
 
+        // Obtener el precio de la habitación
+        int precioHabitacion = obtenerPrecioHabitacion(conn, habitacionId);
+
         // Insertar la nueva reserva
-        String insertReservaQuery = "INSERT INTO reservas (id_habitacion, fecha_entrada, fecha_salida, numero_personas) VALUES (?, ?, ?, ?)";
+        String insertReservaQuery = "INSERT INTO reservas (id_habitacion, monto, fecha_entrada, fecha_salida, numero_personas) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(insertReservaQuery, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, habitacionId);
-            pstmt.setString(2, fechaEntrada);
-            pstmt.setString(3, fechaSalida);
-            pstmt.setInt(4, clientes.size());
+            pstmt.setInt(2, precioHabitacion);
+            pstmt.setString(3, fechaEntrada);
+            pstmt.setString(4, fechaSalida);
+            pstmt.setInt(5, clientes.size());
             pstmt.executeUpdate();
 
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -274,6 +278,20 @@ private int agregarReserva(int habitacionId, String fechaEntrada, String fechaSa
         }
     }
     return reservaId;
+}
+
+private int obtenerPrecioHabitacion(Connection conn, int habitacionId) throws SQLException {
+    String query = "SELECT precio FROM habitaciones WHERE id_habitacion = ?";
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, habitacionId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("precio");
+            } else {
+                throw new SQLException("No se encontró la habitación con ID: " + habitacionId);
+            }
+        }
+    }
 }
 private void addComponent(JPanel panel, GridBagConstraints gbc, int gridx, int gridy, JComponent component, int gridwidth, int gridheight) {
     gbc.gridx = gridx;

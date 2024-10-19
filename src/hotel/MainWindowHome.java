@@ -1,11 +1,7 @@
 package hotel;
-import java.awt.Frame;
 import javax.swing.JFrame;
 public class MainWindowHome extends javax.swing.JFrame {
-    //La siguiente variable que sea una variable de imagen
 
-     
-    
     public MainWindowHome() {
         initComponents();  
         setTitle("Java Resort Deluxe");
@@ -33,11 +29,14 @@ public class MainWindowHome extends javax.swing.JFrame {
 
                             jPanel1.setBackground(new java.awt.Color(25, 53, 76));
 
+                            ExitButton.setBackground(new java.awt.Color(255, 255, 255));
                             ExitButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
                             ExitButton.setForeground(new java.awt.Color(51, 51, 51));
                             ExitButton.setText("Salir");
+                            ExitButton.setBorder(null);
                             ExitButton.setFocusPainted(false);
                             ExitButton.setFocusable(false);
+                            ExitButton.setIconTextGap(12);
                             ExitButton.addActionListener(new java.awt.event.ActionListener() {
                                           public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         ExitButtonActionPerformed(evt);
@@ -50,11 +49,14 @@ public class MainWindowHome extends javax.swing.JFrame {
                             jLabel3.setText("Registrate o inicia sesión para descubrir un mundo de lujo y confort en cada estancia.");
                             jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+                            LoginButton.setBackground(new java.awt.Color(255, 255, 255));
                             LoginButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
                             LoginButton.setForeground(new java.awt.Color(51, 51, 51));
                             LoginButton.setText("Iniciar Sesión");
+                            LoginButton.setBorder(null);
                             LoginButton.setFocusPainted(false);
                             LoginButton.setFocusable(false);
+                            LoginButton.setIconTextGap(12);
                             LoginButton.addActionListener(new java.awt.event.ActionListener() {
                                           public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         LoginButtonActionPerformed(evt);
@@ -74,10 +76,6 @@ public class MainWindowHome extends javax.swing.JFrame {
                             jPanel1.setLayout(jPanel1Layout);
                             jPanel1Layout.setHorizontalGroup(
                                           jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(102, 102, 102))
                                           .addGroup(jPanel1Layout.createSequentialGroup()
                                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                       .addGroup(jPanel1Layout.createSequentialGroup()
@@ -85,13 +83,19 @@ public class MainWindowHome extends javax.swing.JFrame {
                                                                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                       .addGroup(jPanel1Layout.createSequentialGroup()
                                                                                     .addGap(85, 85, 85)
-                                                                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                      .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                                    .addGap(232, 232, 232)
+                                                                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addContainerGap(85, Short.MAX_VALUE))
+                                          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                    .addGap(102, 102, 102))
+                                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                                   .addComponent(LoginButton)
-                                                                                                  .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                        .addContainerGap(85, Short.MAX_VALUE))
+                                                                                                  .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                    .addGap(229, 229, 229))))
                             );
 
                             jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ExitButton, LoginButton});
@@ -105,12 +109,14 @@ public class MainWindowHome extends javax.swing.JFrame {
                                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(jLabel3)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                                                        .addComponent(LoginButton)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(ExitButton)
-                                                        .addGap(17, 17, 17))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                                        .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(16, 16, 16))
                             );
+
+                            jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ExitButton, LoginButton});
 
                             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                             getContentPane().setLayout(layout);
