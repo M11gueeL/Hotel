@@ -74,13 +74,13 @@ public class Dashboard extends javax.swing.JFrame {
                             jPanel1 = new javax.swing.JPanel();
                             lblImagen = new javax.swing.JLabel();
                             welcomeLabel = new javax.swing.JLabel();
+                            ManageUsers = new javax.swing.JButton();
+                            ManageClients = new javax.swing.JButton();
                             jPanel2 = new javax.swing.JPanel();
                             GenerateRooms = new javax.swing.JButton();
-                            ManageUsers = new javax.swing.JButton();
                             ManageReservation = new javax.swing.JButton();
                             jButton1 = new javax.swing.JButton();
                             ManageRooms = new javax.swing.JButton();
-                            ManageClients = new javax.swing.JButton();
                             jButton2 = new javax.swing.JButton();
                             RegisterClient = new javax.swing.JButton();
                             LogOutButton = new javax.swing.JButton();
@@ -107,45 +107,6 @@ public class Dashboard extends javax.swing.JFrame {
                             welcomeLabel.setForeground(new java.awt.Color(255, 255, 255));
                             welcomeLabel.setText("jLabel1");
 
-                            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-                            jPanel1.setLayout(jPanel1Layout);
-                            jPanel1Layout.setHorizontalGroup(
-                                          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                          .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(141, 141, 141)
-                                                        .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addContainerGap(157, Short.MAX_VALUE))
-                            );
-                            jPanel1Layout.setVerticalGroup(
-                                          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                          .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                      .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                      .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                                    .addGap(44, 44, 44)
-                                                                                    .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                        .addGap(215, 215, 215))
-                            );
-
-                            lblImagen.setIcon(new javax.swing.ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.png")).getImage().getScaledInstance(198, 131, 0)));
-
-                            getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 140));
-
-                            GenerateRooms.setBackground(new java.awt.Color(102, 102, 102));
-                            GenerateRooms.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-                            GenerateRooms.setForeground(new java.awt.Color(255, 255, 255));
-                            GenerateRooms.setText("Generador de habitaciones");
-                            GenerateRooms.setBorder(null);
-                            GenerateRooms.setFocusPainted(false);
-                            GenerateRooms.setFocusable(false);
-                            GenerateRooms.setIconTextGap(12);
-                            GenerateRooms.addActionListener(new java.awt.event.ActionListener() {
-                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                                        GenerateRoomsActionPerformed(evt);
-                                          }
-                            });
-
                             ManageUsers.setBackground(new java.awt.Color(102, 102, 102));
                             ManageUsers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
                             ManageUsers.setForeground(new java.awt.Color(255, 255, 255));
@@ -162,6 +123,68 @@ public class Dashboard extends javax.swing.JFrame {
                             ManageUsers.addActionListener(new java.awt.event.ActionListener() {
                                           public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         ManageUsersActionPerformed(evt);
+                                          }
+                            });
+
+                            ManageClients.setBackground(new java.awt.Color(102, 102, 102));
+                            ManageClients.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            ManageClients.setForeground(new java.awt.Color(255, 255, 255));
+                            ManageClients.setText("Administrar clientes");
+                            ManageClients.setBorder(null);
+                            ManageClients.setFocusPainted(false);
+                            ManageClients.setFocusable(false);
+                            ManageClients.setIconTextGap(12);
+                            ManageClients.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        ManageClientsActionPerformed(evt);
+                                          }
+                            });
+
+                            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+                            jPanel1.setLayout(jPanel1Layout);
+                            jPanel1Layout.setHorizontalGroup(
+                                          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(43, 43, 43)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                      .addComponent(ManageClients, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                      .addComponent(ManageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addContainerGap(27, Short.MAX_VALUE))
+                            );
+                            jPanel1Layout.setVerticalGroup(
+                                          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                      .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                      .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                                    .addGap(32, 32, 32)
+                                                                                    .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                      .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                                    .addGap(14, 14, 14)
+                                                                                    .addComponent(ManageClients, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                    .addComponent(ManageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            );
+
+                            lblImagen.setIcon(new javax.swing.ImageIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.png")).getImage().getScaledInstance(198, 131, 0)));
+
+                            getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 130));
+
+                            GenerateRooms.setBackground(new java.awt.Color(102, 102, 102));
+                            GenerateRooms.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+                            GenerateRooms.setForeground(new java.awt.Color(255, 255, 255));
+                            GenerateRooms.setText("Generador de habitaciones");
+                            GenerateRooms.setBorder(null);
+                            GenerateRooms.setFocusPainted(false);
+                            GenerateRooms.setFocusable(false);
+                            GenerateRooms.setIconTextGap(12);
+                            GenerateRooms.addActionListener(new java.awt.event.ActionListener() {
+                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                        GenerateRoomsActionPerformed(evt);
                                           }
                             });
 
@@ -204,20 +227,6 @@ public class Dashboard extends javax.swing.JFrame {
                             ManageRooms.addActionListener(new java.awt.event.ActionListener() {
                                           public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                         ManageRoomsActionPerformed(evt);
-                                          }
-                            });
-
-                            ManageClients.setBackground(new java.awt.Color(102, 102, 102));
-                            ManageClients.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-                            ManageClients.setForeground(new java.awt.Color(255, 255, 255));
-                            ManageClients.setText("Administrar clientes");
-                            ManageClients.setBorder(null);
-                            ManageClients.setFocusPainted(false);
-                            ManageClients.setFocusable(false);
-                            ManageClients.setIconTextGap(12);
-                            ManageClients.addActionListener(new java.awt.event.ActionListener() {
-                                          public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                                        ManageClientsActionPerformed(evt);
                                           }
                             });
 
@@ -270,57 +279,43 @@ public class Dashboard extends javax.swing.JFrame {
                                           .addGroup(jPanel2Layout.createSequentialGroup()
                                                         .addGap(14, 14, 14)
                                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                      .addComponent(ManageRooms, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                       .addComponent(GenerateRooms, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                      .addComponent(ManageClients, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                                                      .addComponent(ManageRooms, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                        .addGap(18, 18, 18)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                                                  .addGap(6, 6, 6)
-                                                                                                  .addComponent(ManageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                      .addComponent(RegisterClient, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                                    .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                      .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                                    .addGap(28, 28, 28)
-                                                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                  .addComponent(ManageReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                  .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                        .addContainerGap(14, Short.MAX_VALUE))
+                                                                      .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                                  .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                                                                                  .addComponent(RegisterClient, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                                                                                  .addComponent(ManageReservation, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                                                                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                                                                      .addComponent(LogOutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addContainerGap(16, Short.MAX_VALUE))
                             );
 
-                            jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {GenerateRooms, LogOutButton, ManageClients, ManageReservation, ManageRooms, ManageUsers, RegisterClient, jButton1, jButton2});
+                            jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {GenerateRooms, ManageReservation, ManageRooms, RegisterClient, jButton1, jButton2});
 
                             jPanel2Layout.setVerticalGroup(
                                           jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                      .addComponent(RegisterClient, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                      .addComponent(GenerateRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                      .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addContainerGap()
+                                                        .addComponent(RegisterClient, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                      .addComponent(ManageReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                      .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                    .addComponent(ManageRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                      .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                    .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                    .addComponent(ManageUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                      .addComponent(ManageClients, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGap(21, 21, 21))
+                                                        .addComponent(ManageReservation, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(GenerateRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(ManageRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addContainerGap(8, Short.MAX_VALUE))
                             );
 
-                            jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {GenerateRooms, LogOutButton, ManageClients, ManageReservation, ManageRooms, ManageUsers, RegisterClient, jButton1, jButton2});
+                            jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {GenerateRooms, ManageReservation, ManageRooms, RegisterClient, jButton1, jButton2});
 
-                            getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 710, 160));
+                            getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 230, 330));
 
                             jPanel3.setBackground(new java.awt.Color(46, 134, 193));
 
@@ -355,7 +350,7 @@ public class Dashboard extends javax.swing.JFrame {
                                                         .addComponent(reservations, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
                             );
 
-                            getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, -1, -1));
+                            getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, -1, 130));
 
                             jPanel5.setBackground(new java.awt.Color(46, 134, 193));
 
@@ -390,7 +385,7 @@ public class Dashboard extends javax.swing.JFrame {
                                                         .addComponent(Rooms, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
                             );
 
-                            getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, -1, -1));
+                            getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, -1, 130));
 
                             jPanel4.setBackground(new java.awt.Color(46, 134, 193));
 
@@ -411,17 +406,21 @@ public class Dashboard extends javax.swing.JFrame {
                                           .addGroup(jPanel4Layout.createSequentialGroup()
                                                         .addComponent(Clients, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGap(0, 30, Short.MAX_VALUE))
-                                          .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                          .addGroup(jPanel4Layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             );
                             jPanel4Layout.setVerticalGroup(
                                           jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                           .addGroup(jPanel4Layout.createSequentialGroup()
-                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(12, 12, 12)
-                                                        .addComponent(Clients, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                                                        .addContainerGap()
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(Clients, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
                             );
 
-                            getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+                            getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, 130));
 
                             pack();
               }// </editor-fold>//GEN-END:initComponents
