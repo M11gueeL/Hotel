@@ -41,14 +41,16 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
         agregarReservaButton = new JButton("Agregar Reserva");
         clientesListModel = new DefaultListModel<>();
         for (String cliente : getClientes()) {
-        clientesListModel.addElement(cliente);
-        }
+            clientesListModel.addElement(cliente);
+         }
        clientesList = new JList<>(clientesListModel);
        clientesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
        JScrollPane clientesScrollPane = new JScrollPane(clientesList);
        clientesScrollPane.setPreferredSize(new Dimension(200, 150));
         agregarClienteButton = new JButton("Agregar Cliente");
-
+        
+        actualizarListaClientes();
+        
         // Configurar JFrame
         setSize(600, 600);
         setResizable(false);
@@ -75,7 +77,7 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
                         reservationManager.setVisible(true);
         // Agregar componentes al panel principal
         addComponent(mainPanel, gbc, 0, 0, new JLabel("Clientes:"), 1, 1);
-        addComponent(mainPanel, gbc, 1, 0, clientesComboBox, 1, 1);
+        addComponent(mainPanel, gbc, 1, 0, clientesScrollPane, 1, 3);    
         addComponent(mainPanel, gbc, 2, 0, agregarClienteButton, 1, 1);
         addComponent(mainPanel, gbc, 0, 3, new JLabel("Habitación:"), 1, 1);
         addComponent(mainPanel, gbc, 1, 3, habitacionesComboBox, 1, 1);
@@ -113,71 +115,60 @@ Color backgroundColor = new Color(70, 130, 180); // Ejemplo de un color azul cla
             });
             
         agregarClienteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RegisterClient registerClient = new RegisterClient();
-                registerClient.setVisible(true);
-                registerClient.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        if (registerClient.isClienteRegistrado()) {
-                            int nuevoClienteId = registerClient.getClienteId();
-                            String nuevoClienteNombre = registerClient.getClienteNombre();
-                            if (nuevoClienteId != -1 && nuevoClienteNombre != null && !nuevoClienteNombre.isEmpty()) {
-                                clientesMap.put(nuevoClienteNombre, nuevoClienteId);
-                                clientesComboBox.addItem(nuevoClienteNombre);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Error al obtener los datos del nuevo cliente.");
-                            }
-                        }
-                    }
-                });
-            }
-        });
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  RegisterClient clienteForm = new RegisterClient();
+                  clienteForm.setVisible(true);
+                  clienteForm.addWindowListener(new WindowAdapter() {
+                      @Override
+                      public void windowClosed(WindowEvent e) {
+                          actualizarListaClientes();
+                      }
+                  });
+              }
+          });
             // Agregar acción al botón
               agregarReservaButton.addActionListener(new ActionListener() {
-                  @Override
-                  public void actionPerformed(ActionEvent e) {
-                      try {
-                          if (validarFechas(fechaEntradaField.getText(), fechaSalidaField.getText())) {
-                              String selectedCliente = (String) clientesComboBox.getSelectedItem();
-                            if (selectedCliente == null) {
-                                          JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente.");
-                                          return;
-                                          }
-                            List<String> selectedClientes = new ArrayList<>();
-                            selectedClientes.add(selectedCliente);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            if (validarFechas(fechaEntradaField.getText(), fechaSalidaField.getText())) {
+                List<String> selectedClientes = clientesList.getSelectedValuesList();
+                if (selectedClientes.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione al menos un cliente.");
+                    return;
+                }
 
-                              String selectedHabitacion = (String) habitacionesComboBox.getSelectedItem();
-                              int habitacionId = habitacionesMap.get(selectedHabitacion)[0];
-                              int capacidad = habitacionesMap.get(selectedHabitacion)[1];
+                String selectedHabitacion = (String) habitacionesComboBox.getSelectedItem();
+                int habitacionId = habitacionesMap.get(selectedHabitacion)[0];
+                int capacidad = habitacionesMap.get(selectedHabitacion)[1];
 
-                              if (selectedClientes.size() > capacidad) {
-                                  JOptionPane.showMessageDialog(null, "El número de clientes seleccionados excede la capacidad de la habitación.");
-                                  return;
-                              }
+                if (selectedClientes.size() > capacidad) {
+                    JOptionPane.showMessageDialog(null, "El número de clientes seleccionados excede la capacidad de la habitación.");
+                    return;
+                }
 
-                              if (isHabitacionDisponible(habitacionId)) {
-                                  int reservaId = agregarReserva(habitacionId, fechaEntradaField.getText(), fechaSalidaField.getText(), selectedClientes);
-                                  if (reservaId != -1) {
-                                      for (int i = 0; i < selectedClientes.size(); i++) {
-                                          int clienteId = clientesMap.get(selectedClientes.get(i));
-                                          agregarClienteAReserva(reservaId, clienteId, i == 0);
-                                      }
-                                      JOptionPane.showMessageDialog(null, "Reserva agregada exitosamente!");
-                                      dispose();
-                                  }
-                              } else {
-                                  JOptionPane.showMessageDialog(null, "La habitación seleccionada no está disponible.");
-                              }
-                          } else {
-                              JOptionPane.showMessageDialog(null, "Las fechas ingresadas no son válidas. Deben estar en formato YYYY-MM-DD.");
-                          }
-                      } catch (SQLException ex) {
-                          JOptionPane.showMessageDialog(null, "Error al agregar reserva: " + ex.getMessage());
-                      }
-                  }
-              });
+                if (isHabitacionDisponible(habitacionId)) {
+                    int reservaId = agregarReserva(habitacionId, fechaEntradaField.getText(), fechaSalidaField.getText(), selectedClientes);
+                    if (reservaId != -1) {
+                        for (int i = 0; i < selectedClientes.size(); i++) {
+                            int clienteId = clientesMap.get(selectedClientes.get(i));
+                            agregarClienteAReserva(reservaId, clienteId, i == 0);
+                        }
+                        JOptionPane.showMessageDialog(null, "Reserva agregada exitosamente!");
+                        dispose();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "La habitación seleccionada no está disponible.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Las fechas ingresadas no son válidas. Deben estar en formato YYYY-MM-DD.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al agregar reserva: " + ex.getMessage());
+        }
+    }
+});
             iniciarActualizacionPeriodica();
 
             setVisible(true);
@@ -229,7 +220,8 @@ private int agregarReserva(int habitacionId, String fechaEntrada, String fechaSa
 
         // Obtener el precio de la habitación
         int precioHabitacion = obtenerPrecioHabitacion(conn, habitacionId);
-
+        
+        
         // Insertar la nueva reserva
         String insertReservaQuery = "INSERT INTO reservas (id_habitacion, monto, fecha_entrada, fecha_salida, numero_personas) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(insertReservaQuery, Statement.RETURN_GENERATED_KEYS)) {
@@ -356,6 +348,14 @@ private void customizeButton(JButton button) {
         return clientesMap;
     }
     
+    private void actualizarListaClientes() {
+    clientesListModel.clear();
+    for (String cliente : getClientes()) {
+        clientesListModel.addElement(cliente);
+    }
+    clientesList.setModel(clientesListModel);
+}
+    
   private Map<String, int[]> getHabitacionesMap() throws SQLException {
         Map<String, int[]> habitacionesMap = new HashMap<>();
         String query = "SELECT id_habitacion, nombre, capacidad FROM habitaciones WHERE disponibilidad = true";
@@ -370,18 +370,25 @@ private void customizeButton(JButton button) {
         return habitacionesMap;
     }
 
-    private List<String> getClientes() throws SQLException {
-        List<String> clientes = new ArrayList<>();
-        String query = "SELECT nombre FROM clientes";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet resultSet = pstmt.executeQuery()) {
-            while (resultSet.next()) {
-                clientes.add(resultSet.getString("nombre"));
-            }
+    private List<String> getClientes() {
+    List<String> clientes = new ArrayList<>();
+    try (Connection conn = DatabaseConnection.getConnection();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT id_cliente, nombre, apellido FROM clientes")) {
+        
+        while (rs.next()) {
+            int id = rs.getInt("id_cliente");
+            String nombre = rs.getString("nombre");
+            String apellido = rs.getString("apellido");
+            String clienteInfo = nombre + " " + apellido;
+            clientes.add(clienteInfo);
+            clientesMap.put(clienteInfo, id);
         }
-        return clientes;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return clientes;
+}
 
     private List<String> getHabitaciones() throws SQLException {
         List<String> habitaciones = new ArrayList<>();

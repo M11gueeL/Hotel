@@ -227,13 +227,7 @@ public class RoomsManager extends JFrame {
                       if (rowsAffected == 0) {
                           throw new SQLException("No se encontró la habitación con ID: " + idHabitacion);
                       }
-                  }
-
-                  // Desvincular la habitación de la reserva actual
-                  try (PreparedStatement pstmtUpdateReserva = conn.prepareStatement("UPDATE reservas SET id_habitacion = NULL WHERE id_habitacion = ?")) {
-                      pstmtUpdateReserva.setInt(1, idHabitacion);
-                      pstmtUpdateReserva.executeUpdate();
-                  }
+                  }  
 
                   // Confirmar la transacción
                   conn.commit();
